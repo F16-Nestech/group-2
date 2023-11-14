@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const transactionSchema = new mongoose.Schema(
     {
-        order_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Oder', required: true },
-        status: { type: String, enum: ['pending', 'completed', 'failed', 'canceled'], required: true },
+        order_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: true },
+        status: { type: String, enum: ['pending', 'completed', 'failed', 'canceled'], default: 'pending' },
         user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         user_name: { type: String, required: true },
         user_email: { 
@@ -32,8 +32,7 @@ const transactionSchema = new mongoose.Schema(
         payment_info: { type: String },
         message: { type: String, maxlength: 200 },
         created: { type: Date, default: Date.now() },
-        updated: { type: Date, default: Date.now() },
-        security: { type: String },
+        updated: { type: Date, default: Date.now() }
     });
 
 const Transaction = mongoose.model('Transaction', transactionSchema)
