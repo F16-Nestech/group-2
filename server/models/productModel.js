@@ -8,10 +8,9 @@ const productSchema = new mongoose.Schema(
         discount: {type: Number},
         image_link: {type: String, },
         image_list: {type: [String]},
+        created: { type: Date, default: Date.now() },
+        updated: { type: Date, default: Date.now() },
         view: {type: Number, default: 0},
-    },
-    {
-        timestamps: true,
     });
 
 const Product = mongoose.model('Product', productSchema)
