@@ -1,0 +1,47 @@
+<!--include header-->
+<%- include('include/_header') %>
+    <!--/include header-->
+
+    <div class="card-user">
+        <div class="card-header-user">
+            <h2 class="card-title">
+                Danh sách User
+            </h2>
+        </div>
+        <from action="/" method="POST">
+            <div class="card-body-user">
+                <table class="table table-bordered" id="listUser">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">@Email</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Username</td>
+                            <td>example@gmail.com</td>
+                            <td>Male</td>
+                            <td>Active</td>
+                            <td>
+                                <a href="#" class="btn border-shadow update">
+                                    <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+                                </a>
+                                <a class="btn border-shadow delete">
+                                    <span class="text-gradient"><i class="fas fa-times"></i></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </from>
+    </div>
+    <!--include footer-->
+    <%- include('include/_footer') %>
+        <!--/include footer-->
