@@ -2,7 +2,7 @@ import React from 'react'
 
 function NoFound() {
     return (
-        <div>Không thể truy cập </div>
+        <div>cannot access </div>
     )
 }
 
