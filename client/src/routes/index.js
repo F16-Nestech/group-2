@@ -1,3 +1,4 @@
+import RegisterPage from "../pages/RegisterPage/RegisterPage"
 import HomePage from "../pages/HomePage/HomePage";
 import NotFound from "../pages/NotFound/NotFound";
 import OrdersPage from "../pages/OrdersPage/OrdersPage";
@@ -7,6 +8,11 @@ export const routes = [
     {
         path: '/',
         page: HomePage,
+        isShowHeader: true,
+    },
+    {
+        path: '/register',
+        page: RegisterPage,
         isShowHeader: true,
     },
     {
