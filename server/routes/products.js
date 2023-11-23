@@ -1,10 +1,10 @@
-
+import express from 'express'
 import Product from '../models/productModel';
-
+const router = express.Router()
 
 
 // Tạo sản phẩm
-app.post('/products/create', async (req, res) => {
+router.post('/products/create', async (req, res) => {
   try {
     const { name, price, content, discount, image_link, image_list } = req.body;
 
@@ -27,7 +27,7 @@ app.post('/products/create', async (req, res) => {
 });
 
 // Chỉnh sửa sản phẩm
-app.put('/products/edit/:id', async (req, res) => {
+router.put('/products/edit/:id', async (req, res) => {
   try {
     const productId = req.params.id;
     const { name, price, content, discount, image_link, image_list } = req.body;
@@ -58,7 +58,7 @@ app.put('/products/edit/:id', async (req, res) => {
 });
 
 // Xóa sản phẩm
-app.delete('/products/delete/:id', async (req, res) => {
+router.delete('/products/delete/:id', async (req, res) => {
   try {
     const productId = req.params.id;
 
@@ -76,7 +76,7 @@ app.delete('/products/delete/:id', async (req, res) => {
 });
 
 // Lấy danh sách sản phẩm
-app.get('/products', async (req, res) => {
+router.get('/products', async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json({ products });
