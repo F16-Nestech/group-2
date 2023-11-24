@@ -1,4 +1,4 @@
-<form method="POST" id="add_user">
+<form action="/api/users" method="POST" id="add_user">
     <div class="new_user">
         <div class="form-group">
             <label for="name" class="text-light">Name</label>
@@ -8,6 +8,14 @@
         <div class="form-group">
             <label for="Email" class="text-light">Email</label>
             <input type="text" name="email" value="" placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="Phone" class="text-light">Phone</label>
+            <input type="string" name="phone" value="" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="address" class="text-light">Address</label>
+            <input type="text" id="address" name="address"></input>
         </div>
         <div class="form-group">
             <label for="gender" class="text-light">Gender</label>
@@ -22,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            <label for="name" class="text-light">Decentralization</label>
+            <label for="name" class="text-light">Role</label>
             <div class="radio inline">
                 <input type="radio" id="radio-4" name="name" value="user">
                 <label for="radio-4" class="radio-label">User</label>

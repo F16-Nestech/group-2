@@ -5,14 +5,18 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const path = require('path');
 
+const connectDB = require('./database/connection');
 
 const app = express();
 
 dotenv.config({ path: 'config.env' })
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 3000
 
 //log requests
 app.use(morgan('tiny'));
+
+//mongodb connection
+connectDB()
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -27,4 +31,4 @@ app.use('/js', express.static(path.resolve(__dirname, "assets/js")));
 
 //load routers
 app.use('/', require("./routes/router"))
-app.listen(port, () => { console.log(`Server is running in port ${port}`) });
+app.listen(3000);
