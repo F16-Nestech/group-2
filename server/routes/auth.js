@@ -6,7 +6,7 @@ import User from '../models/userModel'
 const router = express.Router()
 
 //Middleware validation cho API đăng ký
-const validateSignup = (req, res, next) => {
+const validateSignup = (req, res) => {
     const { name, email, phone, address, password, confirmPassword } = req.body
 
     //Kiểm tra các trường có giá trị không
@@ -28,12 +28,10 @@ const validateSignup = (req, res, next) => {
     if (password !== confirmPassword) {
         return res.status(400).json({ message: 'Mật khẩu xác nhận không khớp' })
     }
-
-    next()
 }
 
 //Middleware validation cho API đăng nhập
-const validateLogin = (req, res, next) => {
+const validateLogin = (req, res) => {
     const { email, password } = req.body
 
     if (!email || !password) {
@@ -43,8 +41,6 @@ const validateLogin = (req, res, next) => {
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         return res.status(400).json({ message: 'Email không hợp lệ' });
     }
-
-    next()
 }
 
 //Đăng ký Signup
