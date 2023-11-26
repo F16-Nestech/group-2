@@ -11,6 +11,10 @@ const productSchema = new mongoose.Schema(
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
         view: {type: Number, default: 0},
+        deleted: {
+            type: Boolean,
+            default: false,
+        },
     });
 
 const Product = mongoose.model('Product', productSchema)
