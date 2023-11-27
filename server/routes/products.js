@@ -115,14 +115,21 @@ router.delete('/products/:id', async (req, res) => {
 // Lấy danh sách sản phẩm
 router.get('/products', async (req, res) => {
   try {
-    const { minPrice, maxPrice, searchTerm, sortBy, sortOrder, page = 1, perPage = 1 } = req.query;
+    const { minPrice, maxPrice, searchTerm, sortBy, sortOrder, page = 1, perPage = 15 } = req.query;
 
     let filter = { deleted: { $ne: true } }; // Thêm điều kiện không bị xóa
-    if (minPrice) {
-      filter.price = { $gte: minPrice };
+    let priceFilter = {}; // Tạo một biến trung gian để xây dựng điều kiện lọc price
+    if (minPrice && !isNaN(Number(minPrice))) {
+      priceFilter.$gte = minPrice;
     }
-    if (maxPrice) {
-      filter.price = { ...filter.price, $lte: maxPrice };
+    if (maxPrice && !isNaN(Number(maxPrice))) {
+      priceFilter.$lte = maxPrice;
+    }
+    if (priceFilter.$gte && priceFilter.$lte && priceFilter.$gte >= priceFilter.$lte) {
+      return res.status(400).json({ message: 'minPrice phải nhỏ hơn maxPrice' });
+    }
+    if (Object.keys(priceFilter).length > 0) {
+      filter.price = priceFilter;
     }
     if (searchTerm) {
       filter.$or = [
@@ -130,18 +137,22 @@ router.get('/products', async (req, res) => {
         { content: { $regex: new RegExp(searchTerm, 'i') } }
       ];
     }
-
+    if (sortOrder && sortOrder !== 'asc' && sortOrder !== 'desc') {
+      return res.status(400).json({ message: 'sortOrder không hợp lệ. Chỉ chấp nhận "asc" hoặc "desc".' });
+    }
     let sort = {};
     if (sortBy && sortOrder) {
       sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
     }
 
     let query = Product.find(filter);
-
+    
     if (Object.keys(sort).length !== 0) {
       query = query.sort(sort);
     }
-
+    if (!Number.isInteger(parseInt(page)) || !Number.isInteger(parseInt(perPage)) || parseInt(page) <= 0 || parseInt(perPage) <= 0) {
+      return res.status(400).json({ message: 'Số trang cần phải là số nguyên dương' });
+    }
     const skip = (parseInt(page) - 1) * parseInt(perPage);
 
     const products = await query
