@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import request from "../../utils/request";
+// import 
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import FooterComponent from "../../components/FooterComponent/FooterComponent";
 import "./SignupPage.css";
@@ -23,11 +24,20 @@ const SignupPage = () => {
       setStatus({ success: true, message: response.message });
       resetForm();
       //Chuyển sang trang đăng nhập khi đăng ký thành công
-      window.location.href = "/login";
+      const navigate = useNavigate();
+      navigate('/login', { replace: true });
     } catch (error) {
       setSubmitting(false);
     }
   };
+
+  const formField = ({ label, type, id, name }) => {
+    <>
+      <label htmlFor={id}>{label}</label>
+      <Field type={type} id={id} name={name} required />
+      <ErrorMessage name={name} component="div" />
+    </>
+  }
 
   return (
     <div className="container">
@@ -38,29 +48,12 @@ const SignupPage = () => {
             <Form>
               <h2>Đăng ký</h2>
 
-              <label htmlFor="name">Họ và tên:</label>
-              <Field type="text" id="name" name="name" required />
-              <ErrorMessage name="name" component="div" />
-
-              <label htmlFor="email">Email:</label>
-              <Field type="email" id="email" name="email" required />
-              <ErrorMessage name="email" component="div" />
-
-              <label htmlFor="phone">Số điện thoại:</label>
-              <Field type="tel" id="phone" name="phone" required />
-              <ErrorMessage name="phone" component="div" />
-
-              <label htmlFor="address">Địa chỉ:</label>
-              <Field type="text" id="address" name="address" required />
-              <ErrorMessage name="address" component="div" />
-
-              <label htmlFor="password">Mật khẩu:</label>
-              <Field type="password" id="password" name="password" required />
-              <ErrorMessage name="password" component="div" />
-
-              <label htmlFor="confirmPassword">Xác nhận mật khẩu:</label>
-              <Field type="password" id="confirmPassword" name="confirmPassword" required />
-              <ErrorMessage name="confirmPassword" component="div" />
+              {formField('Họ và tên:', 'text', 'name', 'name')}
+              {formField('Email:', 'email', 'email', 'email')}
+              {formField('Số điện thoại:', 'tel', 'phone', 'phone')}
+              {formField('Địa chỉ:', 'text', 'address', 'address')}
+              {formField('Mật khẩu:', 'password', 'password', 'password')}
+              {formField('Xác nhận mật khẩu:', 'password', 'confirmPassword', 'confirmPassword')}
 
               <button type="submit" disabled={isSubmitting}>Đăng ký</button>
 
