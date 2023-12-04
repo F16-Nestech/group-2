@@ -11,174 +11,20 @@
 
 body {
     box-sizing: border-box;
+    /* background-color: #6e9e8c; */
 }
 
 a {
     text-decoration: none;
-    color: #f5f5f5;
+    color: #100808;
 }
 
-.navbar {
-    background-color: #fff;
-    margin-left: 250px;
-    flex-direction: row;
-    border-bottom: solid 1px black;
-    position: relative;
-    align-items: center;
-    padding: 0.5rem 0.5rem;
-}
-
-.navbar .navbar-nav {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 0;
-    padding-left: 0;
-}
-
-.navbar .navbar-nav1 {
-    list-style: none;
-    display: flex;
-    margin-left: auto;
-    margin-bottom: 0;
-}
-
-.navbar .navbar-nav1 .fas {
-    color: #4b545c;
-}
-
-.navbar .navbar-nav1 .navbar-search-block.navbar-search-open {
-    display: flex;
-}
-
-.navbar .navbar-nav1 .navbar-search-block {
-    position: absolute;
-    padding: 0.1rem;
-    left: 0;
-    top: 0px;
-    right: 0;
-    bottom: 0;
-    z-index: 10;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.navbar .navbar-nav1 .navbar-search-block .input-group {
-    border: 2px solid rgb(129, 159, 129);
-    border-radius: 0.3rem;
-}
-
-.navbar .navbar-nav1 .navbar-search-block .input-group .form-control {
-    background-color: #f5f5f5;
-    border-color: #e8e8e8;
-    color: rgba(52, 58, 64, 0.8);
-}
-
-.navbar .navbar-nav1 .navbar-search-block .input-group .input-group-append {
-    display: flex;
-}
-
-.navbar .navbar-nav1 .navbar-search-block .input-group .input-group-append .btn-nav {
-    border: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-left: 1px solid #0f0d0d;
-}
-
-
-.main-sidebar {
-    width: 250px;
-    left: 0;
-    bottom: 0;
-    position: fixed;
-    top: 0;
-    background-color: #343a40;
-}
-
-.main-sidebar .brand-link {
-    display: block;
-    font-size: 1.25rem;
-    text-decoration: none;
-    width: 250px;
-    margin-top: 0;
-    padding: 0.8125rem 0.5rem;
-    border-bottom: 1px solid #4b545c;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.main-sidebar .brand-link .brand-image {
-    float: left;
-    line-height: 0.8;
-    margin-left: 3.0rem;
-    margin-right: 0.5rem;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    max-height: 32px;
-    width: auto;
-}
-
-.main-sidebar .sidebar .user-panel {
-    border-bottom: 1px solid #4f5962;
-
-}
-
-
-.main-sidebar .sidebar .form-inline .input-group {
-    font-size: 25px;
-    width: 100%;
-    flex-wrap: nowrap;
-}
-
-.main-sidebar .sidebar .form-inline .input-group .form-control {
-    background-color: #3f474e;
-    border: 1px solid #56606a;
-}
-
-.main-sidebar .sidebar .form-inline .input-group .btn-sidebar {
-    background-color: #3f474e;
-    border: 1px solid #56606a;
-    color: #fff;
-}
-
-.main-sidebar .sidebar .form-inline .input-group .btn-sidebar .fas {
-    font-size: 18px;
-    margin: 5px;
-}
-
-.main-sidebar .sidebar .form-inline .input-group .input-group-append {
-    border: 1px solid #5a5c5d;
-}
-
-.main-sidebar .sidebar .nav-sidebar .menu-open a {
-    color: #fff;
-}
-
-.main-sidebar .sidebar .nav-sidebar .menu-open p {
-    display: inline;
-    font-size: 20px;
-}
-
-.main-sidebar .sidebar .nav-sidebar .menu-open .nav-icon {
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.main-sidebar .sidebar .nav-sidebar .menu-open p .down {
-    margin-left: 20px;
-}
-
-.content-wrapper {
-    margin-left: 250px;
-}
-
-.content-wrapper h1 {
-    font-size: 1.8rem;
-    margin: 0;
-}
 
 /* list User*/
 .container {
-    max-width: 1024px;
+    max-width: 1400px;
     padding: auto;
+    margin-left: 270px;
 }
 
 .nav-brand {
@@ -210,10 +56,6 @@ a {
 
 .inline {
     display: inline-block;
-}
-
-.text-light {
-    color: var(--light);
 }
 
 .text-gradient {

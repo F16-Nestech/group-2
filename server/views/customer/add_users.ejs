@@ -1,21 +1,49 @@
-<form action="/api/users" method="POST" id="add_user">
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"> Customer</h1>
+
+    <div class="btn-toolbar mb-2 mb-md 0">
+        <div class="btn-group me-2">
+            <button class="btn btn-sm btn-outline-secondary">
+                ?
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="col py-3">
+    <div class="row">
+        <div class="col">
+            <nav aria-label=" breadcrumb">
+                <ol class="breadcrumb-item">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> New Customer</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col text-end fw-lighter">
+            <b>UserID</b>
+        </div>
+    </div>
+</div>
+
+<form action="/add_users" method="POST" id="add_user">
     <div class="new_user">
         <div class="form-group">
             <label for="name" class="text-light">Name</label>
             <input type="hidden" name="id" value="">
-            <input type="text" name="name" value="" placeholder="Le dac luc">
+            <input type="text" name="name" value="" placeholder="Le dac luc" required>
         </div>
         <div class="form-group">
             <label for="Email" class="text-light">Email</label>
-            <input type="text" name="email" value="" placeholder="example@gmail.com">
+            <input type="text" name="email" id="email" value="" placeholder="example@gmail.com" required>
         </div>
         <div class="form-group">
             <label for="Phone" class="text-light">Phone</label>
-            <input type="string" name="phone" value="" placeholder="">
+            <input type="string" name="phone" id="phone" value="" placeholder="" required>
         </div>
         <div class="form-group">
             <label for="address" class="text-light">Address</label>
-            <input type="text" id="address" name="address"></input>
+            <input type="text" id="address" name="address"></input required>
         </div>
         <div class="form-group">
             <label for="gender" class="text-light">Gender</label>

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
     {
-        name: { type: String, required: true },
+        name: { type: String, require: true },
         email: {
             type: String,
             required: true,
@@ -25,7 +26,7 @@ const userSchema = new mongoose.Schema(
         },
         address: { type: String, maxlength: 100 },
         gender: { type: String },
-        role: { type: String, default: 'user' },
+        role: { type: String, enum: ['user', 'admin'], default: 'user' },
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
     }
