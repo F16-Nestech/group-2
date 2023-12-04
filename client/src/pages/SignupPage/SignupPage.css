@@ -1,71 +1,79 @@
 body {
-  font-family: "Arial", sans-serif;
-  margin: 0;
-  padding: 0;
   display: flex;
-  flex-direction: column;
+  background-color: #f4f4f4;
+  font-family: "Arial", sans-serif;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4;
 }
 
 .signup-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: #fff;
   border-radius: 8px;
+  padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-  text-align: center;
-  color: #333;
+a {
+  color: black;
+  text-decoration: none;
 }
 
-label {
-  display: block;
-  margin: 10px 0 5px;
-  color: #333;
+a:hover {
+  color: #429a9d;
 }
 
-input {
+form {
+  display: flex;
+  align-self: center;
+  width: 70%;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+h1.title {
+  color: #fff;
+  line-height: 40px ;
+}
+h1.title span {
+  font-size: 17px;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  background-color: #429a9d;
+  padding: 0 40px 0 10px;
+}
+
+.textField {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
   width: 100%;
-  padding: 8px;
-  margin: 5px 0 15px;
-  box-sizing: border-box;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+
+.textField Field {
+  padding: 6px 12px;
+  width: 60%;
+  height: 34px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
+  align-self: center;
+  width: 100px;
+  background-color: #262626;
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
-  width: 100%;
 }
-
-button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
-
-.message {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.message.success {
-  background-color: #4caf50;
-  color: white;
-}
-
-.message.error {
-  background-color: #f44336;
-  color: white;
-}
-
