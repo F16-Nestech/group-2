@@ -1,0 +1,79 @@
+body {
+  display: flex;
+  background-color: #f4f4f4;
+  font-family: "Arial", sans-serif;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #429a9d;
+}
+
+form {
+  display: flex;
+  align-self: center;
+  width: 70%;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+h1.title {
+  color: #fff;
+  line-height: 40px ;
+}
+h1.title span {
+  font-size: 17px;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  background-color: #429a9d;
+  padding: 0 40px 0 10px;
+}
+
+.textField {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+
+.textField Field {
+  padding: 6px 12px;
+  width: 60%;
+  height: 34px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  align-self: center;
+  width: 100px;
+  background-color: #262626;
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
