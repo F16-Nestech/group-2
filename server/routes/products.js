@@ -158,12 +158,7 @@ router.get('/products', async (req, res) => {
     const products = await query
       .skip(skip)
       .limit(parseInt(perPage));
-    let totalCount =0;
-    if (Object.keys(filter).length > 0) {
-      totalCount = await Product.countDocuments(filter);
-    } else {
-      totalCount = await Product.countDocuments();
-    }
+    const totalCount = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalCount / parseInt(perPage)); // Tính tổng số trang
   
     res.status(200).json({ products, pagination: { page: parseInt(page), totalPages, totalCount } });

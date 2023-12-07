@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "../../utils/request";
-import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
-import FooterComponent from "../../components/FooterComponent/FooterComponent";
+import { getAllProducts } from "@/utils/request";
 import "./HomePage.css";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
-    minPrice: '',
-    maxPrice: '',
+    minPrice: null,
+    maxPrice: null,
     searchTerm: '',
     sortBy: '',
     sortOrder: '',
@@ -17,7 +15,7 @@ function HomePage() {
   });
   const [pagination, setPagination] = useState({
     page: 1,
-    totalPages: 1,
+    totalPages: 3,
   });
 
   useEffect(() => {
@@ -26,11 +24,11 @@ function HomePage() {
 
   const fetchData = async () => {
     try {
-      const productList = await getAllProducts(filters);
-      setProducts(productList.products);
+      const products = await getAllProducts(filters);
+      setProducts(products.products);
       setPagination({
-        page: productList.pagination.page,
-        totalPages: productList.pagination.totalPages,
+        page: products.pagination.page,
+        totalPages: products.pagination.totalPages,
       });
     } catch (error) {
       console.error(error);
@@ -100,7 +98,6 @@ function HomePage() {
   return (
     <div className="Container">
       <div className="HomepageContainer">
-        <HeaderComponent />
         <div className="Filters">
           <h2>Filters</h2>
           <input
@@ -147,7 +144,6 @@ function HomePage() {
             {getPageNumbers()}
           </div>
         </div>
-        <FooterComponent />
       </div>
     </div>
   );
