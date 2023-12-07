@@ -7,6 +7,7 @@ import "./SignupPage.css";
 
 import request from "../../utils/request";
 import { SIGNUP_API } from "../../utils/apiConfig";
+import { callCMSAPI } from "../../utils/apiUtils";
 
 const SignupPage = () => {
   const initialValues = {
@@ -22,11 +23,24 @@ const SignupPage = () => {
     try {
       //Call API đăng ký
       const response = await request(SIGNUP_API, 'post', values);
-      setStatus({ success: true, message: response.message });
-      resetForm();
-      //Chuyển sang trang đăng nhập khi đăng ký thành công
-      const navigate = useNavigate();
-      navigate('/login', { replace: true });
+      
+      if (response.success) {
+        // Call API đăng ký trên CMS
+        const cmsResponse = await callCMSAPI(values);
+
+        if (cmsResponse.success) {
+          setStatus({ success: true, message: 'Đăng ký thành công' });
+          resetForm();
+          //Chuyển sang trang đăng nhập khi đăng ký thành công
+          const navigate = useNavigate();
+          navigate('/login', { replace: true });
+        } else {
+          // Phản hồi từ CMS thất bại
+          setStatus({ success: false, message: 'Đăng ký thất bại trên CMS' });
+        }
+      } else {
+        setStatus({ success: true, message: response.message });
+      }
     } catch (error) {
       setSubmitting(false);
     }
