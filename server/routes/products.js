@@ -158,12 +158,12 @@ router.get('/products', async (req, res) => {
     const products = await query
       .skip(skip)
       .limit(parseInt(perPage));
-
-    res.status(200).json({ products });
+    const totalCount = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(totalCount / parseInt(perPage)); // Tính tổng số trang
+  
+    res.status(200).json({ products, pagination: { page: parseInt(page), totalPages, totalCount } });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Lỗi server khi lấy danh sách sản phẩm' });
   }
 });
-
-
