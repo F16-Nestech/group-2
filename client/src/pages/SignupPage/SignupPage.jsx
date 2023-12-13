@@ -25,8 +25,8 @@ const SignupPage = () => {
       setStatus({ success: true, message: response.message });
       resetForm();
       //Chuyển sang trang đăng nhập khi đăng ký thành công
-      const navigate = useNavigate();
-      navigate('/login', { replace: true });
+      // const navigate = useNavigate();
+      // navigate('/login', { replace: true });
     } catch (error) {
       setSubmitting(false);
     }

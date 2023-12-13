@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "@/utils/request";
+import { getAllProducts } from "../../utils/request";
+import { TextField, Button, Select, MenuItem, Pagination } from '@mui/material';
 import "./HomePage.css";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
@@ -37,9 +39,28 @@ function HomePage() {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+  
+    if (name === "minPrice" || name === "maxPrice") {
+      const intValue = parseInt(value);
+      if (value !== "" && (isNaN(intValue) || intValue < 0)) {
+        setError("Giá trị phải là số nguyên dương");
+        return;
+      }
+  
+      if (name === "minPrice" && (intValue >= filters.maxPrice || filters.maxPrice === '')) {
+        setError("Min Price phải nhỏ hơn Max Price");
+        return;
+      }
+  
+      if (name === "maxPrice" && (intValue <= filters.minPrice || filters.minPrice === '')) {
+        setError("Max Price phải lớn hơn Min Price");
+        return;
+      }
+    }
+  
     setFilters({ ...filters, [name]: value });
+    setError(null); // Reset error sau khi điều kiện được đáp ứng
   };
-
   const handleSortChange = (e) => {
     const { value } = e.target;
     const [sortBy, sortOrder] = value.split(',');
@@ -50,49 +71,8 @@ function HomePage() {
     setFilters({ ...filters, page });
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    const { page, totalPages } = pagination;
-
-    const handleNextPage = () => {
-      if (page < totalPages) {
-        handlePageChange(page + 1);
-      }
-    };
-
-    const handlePrevPage = () => {
-      if (page > 1) {
-        handlePageChange(page - 1);
-      }
-    };
-
-    if (totalPages > 1) {
-      if (page !== 1) {
-        pageNumbers.push(
-          <button key="prev" onClick={handlePrevPage}>
-            Prev
-          </button>
-        );
-      }
-
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(
-          <button key={i} onClick={() => handlePageChange(i)} disabled={i === page}>
-            {i}
-          </button>
-        );
-      }
-
-      if (page !== totalPages) {
-        pageNumbers.push(
-          <button key="next" onClick={handleNextPage}>
-            Next
-          </button>
-        );
-      }
-    }
-
-    return pageNumbers;
+  const handlePaginationChange = (event, value) => {
+    handlePageChange(value);
   };
 
   return (
@@ -100,32 +80,36 @@ function HomePage() {
       <div className="HomepageContainer">
         <div className="Filters">
           <h2>Filters</h2>
-          <input
+          <TextField
             type="text"
             name="searchTerm"
-            placeholder="Search"
+            label="Search"
+            size="small"
             value={filters.searchTerm}
             onChange={handleFilterChange}
           />
-          <input
+          <TextField
             type="number"
             name="minPrice"
-            placeholder="Min Price"
+            label="Min Price"
+            size="small"
+            helperText={error}
             value={filters.minPrice}
             onChange={handleFilterChange}
           />
-          <input
+          <TextField
             type="number"
             name="maxPrice"
-            placeholder="Max Price"
+            label="Max Price"
+            size="small"
+            helperText={error}
             value={filters.maxPrice}
             onChange={handleFilterChange}
           />
-          <select onChange={handleSortChange}>
-            <option value="">      </option>
-            <option value="price,asc">Tăng dần</option>
-            <option value="price,desc">Giảm dần</option>
-          </select>
+          <Select value={`${filters.sortBy},${filters.sortOrder}`} onChange={handleSortChange} size="small">
+            <MenuItem value="price,asc">Tăng dần</MenuItem>
+            <MenuItem value="price,desc">Giảm dần</MenuItem>
+          </Select>
         </div>
         <div className="ProductsContainer">
           <h1>Danh sách sản phẩm</h1>
@@ -141,7 +125,14 @@ function HomePage() {
             ))}
           </ul>
           <div className="Pagination">
-            {getPageNumbers()}
+            
+            <Pagination
+              count={pagination.totalPages}
+              page={pagination.page}
+              onChange={handlePaginationChange}
+              shape="rounded"
+              color="primary"
+            />
           </div>
         </div>
       </div>
