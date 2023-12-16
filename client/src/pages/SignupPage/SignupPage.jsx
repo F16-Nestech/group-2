@@ -20,6 +20,8 @@ const SignupPage = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+    const navigate = useNavigate();
+
     try {
       //Call API đăng ký
       const response = await request(SIGNUP_API, 'post', values);
@@ -32,7 +34,6 @@ const SignupPage = () => {
           setStatus({ success: true, message: 'Đăng ký thành công' });
           resetForm();
           //Chuyển sang trang đăng nhập khi đăng ký thành công
-          const navigate = useNavigate();
           navigate('/login', { replace: true });
         } else {
           // Phản hồi từ CMS thất bại
