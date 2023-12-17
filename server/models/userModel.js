@@ -1,35 +1,43 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
     {
-        name: { type: String, required: true },
-        email: { 
-            type: String, 
-            required: true, 
+        name: { type: String, require: true },
+        email: {
+            type: String,
+            required: true,
             unique: true,
             validate: {
                 validator: function (e) {
-                  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
                 },
                 message: props => `${props.value} is not a valid email address!`
             }
         },
-        phone: { 
+        phone: {
             type: String,
+            required: true,
             validate: {
                 validator: function (v) {
-                  return /^[0-9]{10}$/.test(v);
+                    return /^[0-9]{10}$/.test(v);
                 },
                 message: props => `${props.value} is not a valid phone number!`,
             }
         },
         address: { type: String, maxlength: 100 },
-        password: { type: String, required: true },
+        gender: { type: String },
+        role: { type: String, enum: ['user', 'admin'], default: 'user' },
+        access_token: { type: String, required: true },
+        refresh_token: { tyoe: String, required: true },
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
-        role: { type: String, enum: ['user', 'admin'], default: 'user' },
-    });
+    },
+    {
+        timestamps: true
+    }
+);
 
 const User = mongoose.model('User', userSchema)
 
-export default User
+module.exports = User;
