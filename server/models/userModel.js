@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
-        name: { type: String, require: true },
+        name: { type: String, required: true },
         email: {
             type: String,
             required: true,
@@ -29,7 +29,7 @@ const userSchema = new Schema(
         gender: { type: String },
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
         access_token: { type: String, required: true },
-        refresh_token: { tyoe: String, required: true },
+        refresh_token: { type: String, required: true },
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
     },
