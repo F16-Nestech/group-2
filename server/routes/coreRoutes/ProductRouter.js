@@ -1,16 +1,16 @@
 import express from 'express'
-import Product from '../models/productModel';
+import Product from '../../models/productModel';
 const router = express.Router()
 
 const validateProduct = (req, res) => {
   const { name, price, content, discount, image_link, image_list } = req.body;
 
   if (!name || !price || !image_link) {
-      return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin sản phẩm' });
+    return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin sản phẩm' });
   }
 
   if (isNaN(price) || (discount && isNaN(discount))) {
-      return res.status(400).json({ message: 'Giá sản phẩm và giảm giá phải là số' });
+    return res.status(400).json({ message: 'Giá sản phẩm và giảm giá phải là số' });
   }
   if (content && typeof content !== 'string') {
     return res.status(400).json({ message: 'Nội dung sản phẩm phải là chuỗi' });
@@ -20,49 +20,49 @@ const validateProduct = (req, res) => {
   if (!hasValidExtension) {
     return res.status(400).json({ message: 'Đường dẫn ảnh không hợp lệ' });
   }
-  if(image_list){
+  if (image_list) {
     if (!Array.isArray(image_list)) {
       return res.status(400).json({ message: 'list ảnh phải là một tập ảnh hợp lệ ' });
     }
 
     const isValidImageList = image_list.every(img => {
-        const isValidImage = imageExtensions.some(ext => img.toLowerCase().endsWith(ext));
-        return isValidImage;
+      const isValidImage = imageExtensions.some(ext => img.toLowerCase().endsWith(ext));
+      return isValidImage;
     });
 
     if (!isValidImageList) {
-        return res.status(400).json({ message: ' các đường dẫn hình ảnh phải hợp lệ' });
+      return res.status(400).json({ message: ' các đường dẫn hình ảnh phải hợp lệ' });
     }
   }
 };
 // Tạo sản phẩm
-router.post('/products',validateProduct,async (req, res) => {
-      try {
-      const { name, price, content, discount, image_link, image_list } = req.body;
-      const existingProductByName = await Product.findOne({ name });
-      if (existingProductByName) {
-        return res.status(400).json({ message: 'Sản phẩm đã tồn tại dựa trên tên' });
-      }
-      const newProduct = new Product({
-        name,
-        price,
-        content,
-        discount,
-        image_link,
-        image_list,
-      });
-
-      await newProduct.save();
-
-      res.status(201).json({ message: 'Sản phẩm đã được tạo thành công', product: newProduct });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Lỗi server khi tạo sản phẩm' });
+router.post('/products', validateProduct, async (req, res) => {
+  try {
+    const { name, price, content, discount, image_link, image_list } = req.body;
+    const existingProductByName = await Product.findOne({ name });
+    if (existingProductByName) {
+      return res.status(400).json({ message: 'Sản phẩm đã tồn tại dựa trên tên' });
     }
-  });
+    const newProduct = new Product({
+      name,
+      price,
+      content,
+      discount,
+      image_link,
+      image_list,
+    });
+
+    await newProduct.save();
+
+    res.status(201).json({ message: 'Sản phẩm đã được tạo thành công', product: newProduct });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi server khi tạo sản phẩm' });
+  }
+});
 
 // Chỉnh sửa sản phẩm
-router.put('/products/:id',validateProduct, async (req, res) => {
+router.put('/products/:id', validateProduct, async (req, res) => {
   try {
     const productId = req.params.id;
     const { name, price, content, discount, image_link, image_list } = req.body;
@@ -146,7 +146,7 @@ router.get('/products', async (req, res) => {
     }
 
     let query = Product.find(filter);
-    
+
     if (Object.keys(sort).length !== 0) {
       query = query.sort(sort);
     }
@@ -160,7 +160,7 @@ router.get('/products', async (req, res) => {
       .limit(parseInt(perPage));
     const totalCount = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalCount / parseInt(perPage)); // Tính tổng số trang
-  
+
     res.status(200).json({ products, pagination: { page: parseInt(page), totalPages, totalCount } });
   } catch (error) {
     console.error(error);
