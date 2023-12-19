@@ -6,15 +6,11 @@ const productSchema = new mongoose.Schema(
         price: { type: Number, required: true, default: 0.000 },
         content: { type: String, required: true },
         discount: { type: Number, required: true },
-        image_link: { type: String, required: true },
+        image_link: { type: String },
         image_list: { type: [String] },
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
-        view: { type: Number, default: 0 },
-        deleted: {
-            type: Boolean,
-            default: false,
-        },
+        view: { type: Number, default: 0 }
     },
     {
         timestamps: true,
@@ -24,3 +20,4 @@ const productSchema = new mongoose.Schema(
 const Product = mongoose.model('Product', productSchema)
 
 module.exports = Product;
+

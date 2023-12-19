@@ -1,40 +1,50 @@
 
 const User = require('../models/userModel');
-// const UserService = require('../services/UserService');
 
-const createUser = async (req, res) => {
-    try {
-        console.log(req.body);
-        const res = await UserService.createUser();
-        return res.status(200).json(res)
-    } catch (e) {
-        return res.status(404).json({
-            message: 'is there error'
-        });
-    }
-}
-
-exports.getUsers = async (req, res) => {
-    console.log('get users');
-
-    const quertObj = { ...req.query }
-
-    res.status(200).json({
-      status: 'success',
-      count: 1
-    })
-}
-
+//ADD User
 exports.createUser = async (req, res) => {
   console.log('create user');
+  try {
+    const newUser = new User(req.body);
+    const saveUser = await newUser.save();
+    res.status(200).json(saveUser)
+  } catch (err) {
+    res.status(501).json(err);
+  }
+},
 
-  const doc = new User(req.body);
-  await doc.save();
+  //GET all User
+  exports.getUsers = async (req, res) => {
+    console.log('get users');
+    try {
+      const users = await User.find();
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(501).json(err);
+    }
+  },
 
-  res.status(201).json({
-    status: 'success',
-    data: doc
-  })
-}
+  //GET an User
+  exports.getAnUser = async (req, res) => {
+    console.log('get a user');
+    try {
+      const user = await User.findById(req.params.id);
+      res.status(200).json(user)
+    } catch (err) {
+      res.status(501).json(err);
+    }
+  },
+
+  //Update User
+  exports.updateUser = async (req, res) => {
+    console.log('update user');
+    try {
+      const user = await User.findById(req.params.id);
+      await user.updateOne({ $set: req.body });
+      res.status(200).json('updated user success!')
+    } catch (err) {
+      res.status(501).json(err);
+    }
+  }
 
 // module.exports = createUser;

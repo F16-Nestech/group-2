@@ -1,20 +1,22 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 dotenv.config()
+const app = express();
 
 // import routes
-const userRouter = require('../server/routes/business/userRoutes');
+const userRouter = require('../server/routes/coreRoutes/userRoutes');
+const productRouter = require('../server/routes/coreRoutes/productRoutes')
 
 const bodyParser = require('body-parser')
 
-const app = express()
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 5000
 
 app.use(bodyParser.json())
+app.use(cors())
 
-// routes(app)
-
+//CONNECT DB
 mongoose.connect(`${process.env.MONGO_DB}`)
     .then(() => {
         console.log('connect DB success');
@@ -23,14 +25,16 @@ mongoose.connect(`${process.env.MONGO_DB}`)
         console.log(err);
     })
 
-// app.use(cors())
 
 // API
 app.get('/', (req, res) => {
     return res.send('OSM')
 });
-app.use('/api/v1/users', userRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api//v1/products", productRouter);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
+
