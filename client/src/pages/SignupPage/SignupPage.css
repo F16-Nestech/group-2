@@ -1,21 +1,21 @@
-body {
-  background-color: #f4f4f4;
-  font-family: "Arial", sans-serif;
+.container {
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
 .signup-container {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
+
+  width: 70%;
+  margin: 0 auto; /* Thêm margin: 0 auto; để căn giữa */
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
 }
-
 a {
   color: black;
   text-decoration: none;
@@ -26,53 +26,41 @@ a:hover {
 }
 
 form {
+  width: 100%;
   display: flex;
-  align-self: center;
-  width: 70%;
   flex-direction: column;
-  align-items: flex-end;
 }
 
-h1.title {
-  color: #fff;
-  line-height: 40px ;
+h6 {
+  text-align: center;
 }
-h1.title span {
-  font-size: 17px;
-  display: inline-block;
-  position: relative;
-  text-transform: uppercase;
-  background-color: #429a9d;
-  padding: 0 40px 0 10px;
-}
+
+
 
 .textField {
   display: flex;
-  flex-direction: row;
-  justify-content: end;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
   gap: 10px;
-  margin-bottom: 25px;
+}
+
+.TextField {
+  width: 100%;
 }
 
 
-.textField Field {
-  padding: 6px 12px;
-  width: 60%;
-  height: 34px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+
+.message {
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
 }
 
-button {
-  align-self: center;
-  width: 100px;
-  background-color: #262626;
-  color: #fff;
-  font-size: 13px;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+.success {
+  background-color: #8bc34a;
+  color: white;
+}
+
+.error {
+  background-color: #f44336;
+  color: white;
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Col, Input,Image} from 'antd';
+import { Col} from 'antd';
 import { LastFooter} from './styleFooter';
 import imageSrc from '../../assets/images/Brands.jpg';
 function FooterComponent() {
     return (
         <div className="footer">
-            <Image
-                // width={200}
+            <img
+                style={{ width: '100%'}}
                 src={imageSrc}
                 alt="Description of the image"
             />

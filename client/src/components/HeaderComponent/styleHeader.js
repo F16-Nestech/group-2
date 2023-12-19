@@ -19,17 +19,38 @@ export const WrapperHeader = styled(Row)`
     :hover {
       color: #429A9D;
     }
+    padding-right:30px;
   }
-
+  img{
+    padding-left:30px;
+  }
+  .ant-input-search-button {
+    background-color: #429A9D;
+    border-color: #429A9D;
+  }
 `;
 export const FirstHeader = styled(Row)`
   padding: 0.05em 1%;
   background-color: #333333;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
+  padding: 0.05em 1%;
+    max-width:2000px;
+    margin: 0 auto; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  Button#composition-button {
+    display: none; /* Ban đầu ẩn nút */
+  }
+
+  @media screen and (max-width: 1000px) {
+    Button#composition-button {
+      display: block; /* Hiển thị nút khi kích thước màn hình nhỏ hơn 1000px */
+    }
+  }
 `;
 
 export const FisrtHeaderLink = styled.div`
@@ -63,6 +84,7 @@ flex-direction: row;
 justify-content: space-around;
 align-items: center;
 color: white;
+margin-bottom:30px;
 `;
 export const LastHeaderLink = styled.div`
 display: flex;

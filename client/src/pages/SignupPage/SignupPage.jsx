@@ -1,10 +1,8 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
-import FooterComponent from "../../components/FooterComponent/FooterComponent";
+import { Container, Typography, TextField, Button, Paper } from '@mui/material';
+import { styled } from '@mui/system';
 import "./SignupPage.css";
-
 import request from "../../utils/request";
 import { SIGNUP_API } from "../../utils/apiConfig";
 
@@ -18,64 +16,85 @@ const SignupPage = () => {
     confirmPassword: "",
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+  const [signupStatus, setSignupStatus] = useState({});
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      //Call API đăng ký
+      if (values.password !== values.confirmPassword) {
+        setSignupStatus({ success: false, message: "Mật khẩu xác nhận không khớp." });
+        setSubmitting(false);
+        return;
+      }
+
       const response = await request(SIGNUP_API, 'post', values);
-      setStatus({ success: true, message: response.message });
+      setSignupStatus({ success: true, message: response.message });
       resetForm();
-      //Chuyển sang trang đăng nhập khi đăng ký thành công
-      // const navigate = useNavigate();
-      // navigate('/login', { replace: true });
     } catch (error) {
+      setSignupStatus({ success: false, message: "Đã xảy ra lỗi trong quá trình đăng ký." });
       setSubmitting(false);
     }
   };
-
-  const formField = ({ label, type, id, name }) => {
-    <div className="textField">
-      <label htmlFor={id}>{label}</label>
-      <Field type={type} id={id} name={name} required />
-      <ErrorMessage name={name} component="div" />
-    </div>
-  }
-
+  const CustomButton = styled(Button)(({ theme }) => ({
+    backgroundColor: '#429A9D', // Thay đổi màu nền tại đây
+    marginTop: '10px', // Thêm khoảng cách phía trên tại đây
+    // Các tùy chỉnh khác nếu bạn muốn
+    '&:hover': {
+      backgroundColor: '#429A9D', // Màu nền khi hover
+    },
+  }));
   return (
-    <div className="container">
-      <HeaderComponent />
-      <div className="signup-container">
-        <p>
-          <a href="/homePage">Trang chủ</a> &#62&#62
-          <b style={{ color: '#429a9d' }}>Đăng ký tài khoản</b>
-        </p>
-        <h1 className="title">
-          <span> ĐĂNG KÝ TÀI KHOẢN </span>
-        </h1>
+    <Container maxWidth="sm">
+      <Paper elevation={3} className="signup-container">
+        <Typography variant="h6">
+          <span style={{ color: '#429a9d' }}> ĐĂNG KÝ TÀI KHOẢN </span>
+        </Typography>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ isSubmitting, status }) => (
+          {({ isSubmitting }) => (
             <Form>
-              <h2>Đăng ký</h2>
+              <div className="textField">
+                <Typography>Họ và tên:</Typography>
+                <Field as={TextField} type="text" name="name" required />
+                <ErrorMessage name="name" component="div" />
+              </div>
 
-              {formField('Họ và tên:', 'text', 'name', 'name')}
-              {formField('Email:', 'email', 'email', 'email')}
-              {formField('Số điện thoại:', 'tel', 'phone', 'phone')}
-              {formField('Địa chỉ:', 'text', 'address', 'address')}
-              {formField('Mật khẩu:', 'password', 'password', 'password')}
-              {formField('Xác nhận mật khẩu:', 'password', 'confirmPassword', 'confirmPassword')}
+              <div className="textField">
+                <Typography>Email:</Typography>
+                <Field as={TextField} type="email" name="email" required />
+                <ErrorMessage name="email" component="div" />
+              </div>
 
-              <button type="submit" disabled={isSubmitting}>Đăng ký</button>
-              
-              {status && (
-                <div className={`message ${status.success ? 'success' : 'error'}`}>
-                  {status.message}
-                </div>
-              )}
+              <div className="textField">
+                <Typography>Số điện thoại:</Typography>
+                <Field as={TextField} type="tel" name="phone" required />
+                <ErrorMessage name="phone" component="div" />
+              </div>
+
+              <div className="textField">
+                <Typography>Địa chỉ:</Typography>
+                <Field as={TextField} type="text" name="address" required />
+                <ErrorMessage name="address" component="div" />
+              </div>
+
+              <div className="textField">
+                <Typography>Mật khẩu:</Typography>
+                <Field as={TextField} type="password" name="password" required />
+                <ErrorMessage name="password" component="div" />
+              </div>
+
+
+              <div className="textField">
+                <Typography>Xác nhận mật khẩu:</Typography>
+                <Field as={TextField} type="password" name="confirmPassword" required />
+                <ErrorMessage name="confirmPassword" component="div" />
+              </div>
+              <CustomButton variant="contained" disabled={isSubmitting} type="submit" className={signupStatus.message ? `message ${signupStatus.success ? 'success' : 'error'}` : ''}>
+                Đăng ký
+              </CustomButton>
             </Form>
           )}
         </Formik>
-      </div>
-      <FooterComponent />
-    </div>
+      </Paper>
+    </Container>
   );
 };
 
