@@ -1,5 +1,4 @@
-const Product = require("../models/productModel");
-
+const Product = require('../models/productModel');
 
 const productController = {
     //Add Product
@@ -37,9 +36,18 @@ const productController = {
     updateProduct: async (req, res) => {
         console.log('update product');
         try {
-            const product = await Product.findById(req.params.id);
+            const product = await Product.findByIdAndUpdate(req.params.id);
             await product.updateOne({ $set: req.body });
             res.status(200).json('Updated product success!');
+        } catch (err) {
+            res.status(501).json(err)
+        }
+    },
+    //Delete Product
+    deleteProduct: async (req, res) => {
+        try {
+            await Product.findByIdAndDelete(req.params.id)
+            res.status(200).json("Deleted Product Successfully!")
         } catch (err) {
             res.status(501).json(err)
         }

@@ -7,8 +7,6 @@ router
   .post("/", userController.createUser) //Add User
   .get("/", userController.getUsers) //Get all Users
   .get("/:id", userController.getAnUser) //Get a User
-  .put("/:id", userController.updateUser)
-
-// .patch('/:id', userController.updateUser)
-// .delete('/:id', userController.deleteUser);
+  .put("/:id", userController.updateUser) //Update User
+  .delete("/:id", userController.deleteUser) //delete User
 module.exports = router;
