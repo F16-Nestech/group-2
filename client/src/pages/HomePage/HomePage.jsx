@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "@/utils/request";
+import { getAllProducts } from "../../utils/request";
+import { TextField, Button, Select, MenuItem, Pagination } from '@mui/material';
 import "./HomePage.css";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
+  const [minPriceError, setMinPriceError] = useState(null);
+  const [maxPriceError, setMaxPriceError] = useState(null);
   const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
     searchTerm: '',
-    sortBy: '',
-    sortOrder: '',
+    sortBy: 'price',
+    sortOrder: 'asc',
     page: 1,
     perPage: 15,
   });
@@ -21,14 +24,21 @@ function HomePage() {
   useEffect(() => {
     fetchData();
   }, [filters]); // Gọi fetchData khi filters thay đổi
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 500); // Đợi 500ms trước khi gửi yêu cầu, để tránh gửi quá nhiều yêu cầu khi người dùng đang nhập
+    return () => clearTimeout(timer);
+  }, [filters.searchTerm]); // Gọi fetchData khi searchTerm thay đổi
 
   const fetchData = async () => {
     try {
-      const products = await getAllProducts(filters);
-      setProducts(products.products);
+      const fetchedProducts = await getAllProducts(filters);
+      setProducts(fetchedProducts.products);
       setPagination({
-        page: products.pagination.page,
-        totalPages: products.pagination.totalPages,
+        page: fetchedProducts.pagination.page,
+        totalPages: fetchedProducts.pagination.totalPages,
       });
     } catch (error) {
       console.error(error);
@@ -37,7 +47,28 @@ function HomePage() {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+  
+    if (name === "minPrice" || name === "maxPrice") {
+      const intValue = parseInt(value);
+      if (value !== "" && (isNaN(intValue) || intValue < 0)) {
+        name === "minPrice" ? setMinPriceError("Giá trị phải là số nguyên dương") : setMaxPriceError("Giá trị phải là số nguyên dương");
+        return;
+      }
+  
+      if (name === "minPrice" && (intValue >= filters.maxPrice || filters.maxPrice === '')) {
+        setMinPriceError("Min Price phải nhỏ hơn Max Price");
+        return;
+      }
+  
+      if (name === "maxPrice" && (intValue <= filters.minPrice || filters.minPrice === '')) {
+        setMaxPriceError("Max Price phải lớn hơn Min Price");
+        return;
+      }
+    }
+  
     setFilters({ ...filters, [name]: value });
+    setMinPriceError(null);
+    setMaxPriceError(null);
   };
 
   const handleSortChange = (e) => {
@@ -50,85 +81,51 @@ function HomePage() {
     setFilters({ ...filters, page });
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    const { page, totalPages } = pagination;
-
-    const handleNextPage = () => {
-      if (page < totalPages) {
-        handlePageChange(page + 1);
-      }
-    };
-
-    const handlePrevPage = () => {
-      if (page > 1) {
-        handlePageChange(page - 1);
-      }
-    };
-
-    if (totalPages > 1) {
-      if (page !== 1) {
-        pageNumbers.push(
-          <button key="prev" onClick={handlePrevPage}>
-            Prev
-          </button>
-        );
-      }
-
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(
-          <button key={i} onClick={() => handlePageChange(i)} disabled={i === page}>
-            {i}
-          </button>
-        );
-      }
-
-      if (page !== totalPages) {
-        pageNumbers.push(
-          <button key="next" onClick={handleNextPage}>
-            Next
-          </button>
-        );
-      }
-    }
-
-    return pageNumbers;
+  const handlePaginationChange = (event, value) => {
+    handlePageChange(value);
   };
-
+  
   return (
     <div className="Container">
       <div className="HomepageContainer">
+      <h4 className="filter">Lọc</h4>
         <div className="Filters">
-          <h2>Filters</h2>
-          <input
+          <TextField
             type="text"
             name="searchTerm"
-            placeholder="Search"
+            label="Search"
+            size="small"
             value={filters.searchTerm}
             onChange={handleFilterChange}
+            style={{ width: '300px' }}
           />
-          <input
+          <TextField
             type="number"
             name="minPrice"
-            placeholder="Min Price"
+            label="Min Price"
+            size="small"
+            helperText={minPriceError}
             value={filters.minPrice}
             onChange={handleFilterChange}
+            inputProps={{ min: 0 }}
           />
-          <input
+          <TextField
             type="number"
             name="maxPrice"
-            placeholder="Max Price"
+            label="Max Price"
+            size="small"
+            helperText={maxPriceError}
             value={filters.maxPrice}
             onChange={handleFilterChange}
+            inputProps={{ min: 0 }}
           />
-          <select onChange={handleSortChange}>
-            <option value="">      </option>
-            <option value="price,asc">Tăng dần</option>
-            <option value="price,desc">Giảm dần</option>
-          </select>
+          <Select value={`${filters.sortBy},${filters.sortOrder}`} onChange={handleSortChange} size="small">
+            <MenuItem value="price,asc">Tăng dần</MenuItem>
+            <MenuItem value="price,desc">Giảm dần</MenuItem>
+          </Select>
         </div>
         <div className="ProductsContainer">
-          <h1>Danh sách sản phẩm</h1>
+          <h4 style={{ borderBottom: '1px solid black', borderTop: '1px solid black', padding: '10px 30px' }}>Danh sách sản phẩm</h4>
           <ul>
             {products.map((product) => (
               <li key={product._id}>
@@ -140,8 +137,14 @@ function HomePage() {
               </li>
             ))}
           </ul>
-          <div className="Pagination">
-            {getPageNumbers()}
+          <div className="pagination">
+            <Pagination
+              count={pagination.totalPages}
+              page={pagination.page}
+              onChange={handlePaginationChange}
+              shape="rounded"
+              color="primary"
+            />
           </div>
         </div>
       </div>

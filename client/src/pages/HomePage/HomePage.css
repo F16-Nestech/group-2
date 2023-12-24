@@ -1,0 +1,12 @@
+.pagination{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Điều chỉnh khoảng cách giữa danh sách sản phẩm và điều hướng trang */
+}
+.filter {
+    padding-left: 30px;
+  }
+.Filters{
+    display: flex;
+    justify-content: center;
+}
