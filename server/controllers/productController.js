@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Product = require('../models/productModel');
 
 const productController = {
@@ -14,9 +15,9 @@ const productController = {
                 })
             }
 
-            const existingNameProduct = await Product.findOne({ name: name });
+            const existingProduct = await Product.findOne({ name: name });
 
-            if (existingNameProduct) {
+            if (existingProduct) {
                 return res.status(400).json({
                     success: false,
                     result: null,
@@ -175,29 +176,38 @@ const productController = {
 
     //Delete Many Product
     deleteManyProducts: async (req, res) => {
+
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
         try {
             const ids = req.body
-            const result = await Product.deleteMany({ _id: ids })
-            if (!ids) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'The ids is required',
-                })
-            } else {
-                return res.status(200).json({
-                    success: true,
-                    result,
-                    message: 'Delete products successfully!'
-                })
+            if (!ids || Array.isArray(ids) || ids.length === 0) {
+                throw new Error('Invalid ids');
             }
+
+            const result = await Product.deleteMany({ _id: { $in: id } }).session(session);
+
+            await session.commitTransaction();
+            session.endSession();
+
+            return res.status(200).json({
+                success: true,
+                result,
+                message: 'Delete products successfully!'
+            })
+
         } catch (err) {
+            await session.abortTransaction();
+            session.endSession();
+
             return res.status(500).json({
                 success: false,
                 result: null,
-                message: 'server err',
+                message: err.message || 'server err',
             });
         }
-    }
+    },
 };
 
 module.exports = productController;

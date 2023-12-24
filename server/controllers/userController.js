@@ -79,10 +79,10 @@ exports.createUser = async (req, res) => {
     console.log('get a user');
     try {
       //find info user by id
-      const userId = await User.findOne({
+      const user = await User.findOne({
         _id: req.params.id,
       });
-      if (!userId) {
+      if (!user) {
         return res.status(404).json({
           success: false,
           result: null,
@@ -90,14 +90,14 @@ exports.createUser = async (req, res) => {
         });
       } else {
         let result = {
-          _id: userId._id,
-          name: userId.name,
-          email: userId.email,
-          phone: userId.phone,
-          address: userId.address,
-          access_token: userId.access_token,
-          refresh_token: userId.refresh_token,
-          role: userId.role,
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          address: user.address,
+          access_token: user.access_token,
+          refresh_token: user.refresh_token,
+          role: user.role,
         };
         return res.status(200).json({
           success: true,
@@ -158,8 +158,8 @@ exports.createUser = async (req, res) => {
 //Delete User
 exports.deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const result = await User.deleteOne({ _id: userId }); // Delete user on _id
+    const user = req.params.id;
+    const result = await User.deleteOne({ _id: user }); // Delete user on _id
     if (!result) {
       return res.status(404).json({
         success: false,
