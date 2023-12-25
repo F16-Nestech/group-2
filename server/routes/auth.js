@@ -1,7 +1,7 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import User from '../models/userModel'
+import User from '../models/userModel.js'
 
 const router = express.Router()
 
@@ -105,4 +105,5 @@ router.post('/login', validateLogin, async (req, res) => {
     }
 })
 
-module.exports = router
+// module.exports = router
+export { router as authRoutes}

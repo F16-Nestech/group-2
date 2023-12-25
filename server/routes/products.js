@@ -1,5 +1,5 @@
 import express from 'express'
-import Product from '../models/productModel';
+import Product from '../models/productModel.js';
 const router = express.Router()
 
 const validateProduct = (req, res) => {
@@ -20,26 +20,28 @@ const validateProduct = (req, res) => {
   if (!hasValidExtension) {
     return res.status(400).json({ message: 'Đường dẫn ảnh không hợp lệ' });
   }
-  if(image_list){
-    if (!Array.isArray(image_list)) {
-      return res.status(400).json({ message: 'list ảnh phải là một tập ảnh hợp lệ ' });
-    }
+  // if(image_list){
+  //   if (!Array.isArray(image_list)) {
+  //     return res.status(400).json({ message: 'list ảnh phải là một tập ảnh hợp lệ ' });
+  //   }
 
-    const isValidImageList = image_list.every(img => {
-        const isValidImage = imageExtensions.some(ext => img.toLowerCase().endsWith(ext));
-        return isValidImage;
-    });
+  //   const isValidImageList = image_list.every(img => {
+  //       const isValidImage = imageExtensions.some(ext => img.toLowerCase().endsWith(ext));
+  //       return isValidImage;
+  //   });
 
-    if (!isValidImageList) {
-        return res.status(400).json({ message: ' các đường dẫn hình ảnh phải hợp lệ' });
-    }
-  }
+  //   if (!isValidImageList) {
+  //       return res.status(400).json({ message: ' các đường dẫn hình ảnh phải hợp lệ' });
+  //   }
+  // }
 };
 // Tạo sản phẩm
-router.post('/products',validateProduct,async (req, res) => {
+router.post('/', validateProduct, async (req, res) => {
       try {
       const { name, price, content, discount, image_link, image_list } = req.body;
+      console.log("line 41:", req.body)
       const existingProductByName = await Product.findOne({ name });
+      console.log("line 43:", existingProductByName)
       if (existingProductByName) {
         return res.status(400).json({ message: 'Sản phẩm đã tồn tại dựa trên tên' });
       }
@@ -51,7 +53,7 @@ router.post('/products',validateProduct,async (req, res) => {
         image_link,
         image_list,
       });
-
+      console.log("line 56:", newProduct)
       await newProduct.save();
 
       res.status(201).json({ message: 'Sản phẩm đã được tạo thành công', product: newProduct });
@@ -166,4 +168,4 @@ router.get('/products', async (req, res) => {
   }
 });
 
-
+export { router as productRoutes }
