@@ -19,7 +19,7 @@ const SignupPage = () => {
     confirmPassword: "",
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm, responseStatus }) => {
     const navigate = useNavigate();
 
     try {
@@ -31,16 +31,16 @@ const SignupPage = () => {
         const cmsResponse = await callCMSAPI(values);
 
         if (cmsResponse.success) {
-          setStatus({ success: true, message: 'Đăng ký thành công' });
+          responseStatus({ success: true, message: 'Đăng ký thành công' });
           resetForm();
           //Chuyển sang trang đăng nhập khi đăng ký thành công
           navigate('/login', { replace: true });
         } else {
           // Phản hồi từ CMS thất bại
-          setStatus({ success: false, message: 'Đăng ký thất bại trên CMS' });
+          responseStatus({ success: false, message: 'Đăng ký thất bại trên CMS' });
         }
       } else {
-        setStatus({ success: true, message: response.message });
+        responseStatus({ success: true, message: response.message });
       }
     } catch (error) {
       setSubmitting(false);
