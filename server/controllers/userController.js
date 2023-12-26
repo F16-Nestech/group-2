@@ -158,8 +158,8 @@ exports.createUser = async (req, res) => {
 //Delete User
 exports.deleteUser = async (req, res) => {
   try {
-    const user = req.params.id;
-    const result = await User.deleteOne({ _id: user }); // Delete user on _id
+    const userId = req.params.id;
+    const result = await User.deleteOne({ _id: userId }); // Delete user on _id
     if (!result) {
       return res.status(404).json({
         success: false,
