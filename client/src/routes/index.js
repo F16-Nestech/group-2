@@ -1,9 +1,8 @@
+import RegisterPage from "../pages/SignupPage/SignupPage"
 import HomePage from "../pages/HomePage/HomePage";
-import SignupPage from "../pages/SignupPage/SignupPage"
 import NotFound from "../pages/NotFound/NotFound";
 import OrdersPage from "../pages/OrdersPage/OrdersPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
-
 export const routes = [
     {
         path: '/',
@@ -11,8 +10,8 @@ export const routes = [
         isShowHeader: true,
     },
     {
-        path: '/signup',
-        page: SignupPage,
+        path: '/register',
+        page: RegisterPage,
         isShowHeader: true,
     },
     {
@@ -30,5 +29,5 @@ export const routes = [
     {
         path: '*',
         page: NotFound,
-    }
+    },
 ]

@@ -2,30 +2,39 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-
-import {productRoutes} from './routes/products.js'
-
-import {authRoutes} from './routes/auth.js'
-
-
+dotenv.config()
 const app = express()
-mongoose.connect('mongodb://localhost:27017', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    // useCreateIndex: true,
-})
 
-app.use(cors())
-app.use(bodyParser.json())
+// import routes
+const userRouter = require('../server/routes/coreRoutes/userRoutes');
+const productRouter = require('../server/routes/coreRoutes/productRoutes')
 
-app.get("/api/v1/healthchk", (req, res) => {
-    res.status(200).json("hello");
-  });
-
-app.use('/products', productRoutes)
-app.use('/auth', authRoutes)
 
 const PORT = process.env.PORT || 5000
+
+app.use(bodyParser.json())
+app.use(cors())
+
+
+//CONNECT DB
+mongoose.connect(`${process.env.MONGO_DB}`)
+    .then(() => {
+        console.log('connect DB success');
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+
+// API
+app.get('/', (req, res) => {
+    return res.send('OSM')
+});
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
+

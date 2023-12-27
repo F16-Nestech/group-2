@@ -1,22 +1,27 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator')
 
 const productSchema = new mongoose.Schema(
     {
-        name: {type: String, required: true},
-        price: {type: Number, required: true, default: 0.000},
-        content: {type: String},
-        discount: {type: Number},
-        image_link: {type: String },
-        image_list: {type: [String]},
-        created: { type: Date, default: Date.now() },
-        updated: { type: Date, default: Date.now() },
-        view: {type: Number, default: 0},
-        deleted: {
-            type: Boolean,
-            default: false,
-        },
-    });
+        name: { type: String, required: true, unique: true },
+        price: { type: Number, required: true, default: 0.000 },
+        type: { type: String, required: true },
+        countInstock: { type: Number, required: true },
+        image_link: { type: String, required: true },
+        image_list: { type: [String] },
+        rating: { type: Number, required: true },
+        description: { type: String },
+        // created: { type: Date, default: Date.now() },
+        // updated: { type: Date, default: Date.now() },
+    },
+    {
+        timestamps: true,
+    }
+);
 
-const Product = mongoose.model('Product', productSchema)
+productSchema.plugin(uniqueValidator);
 
-export default Product
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
+
