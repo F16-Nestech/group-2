@@ -1,21 +1,20 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const { default: mongoose } = require('mongoose');
-const bodyParser = require('body-parser')
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import cors from 'cors'
 dotenv.config()
-const app = express();
+const app = express()
 
 // import routes
 const userRouter = require('../server/routes/coreRoutes/userRoutes');
 const productRouter = require('../server/routes/coreRoutes/productRoutes')
 
 
-
 const PORT = process.env.PORT || 5000
 
 app.use(bodyParser.json())
 app.use(cors())
+
 
 //CONNECT DB
 mongoose.connect(`${process.env.MONGO_DB}`)
