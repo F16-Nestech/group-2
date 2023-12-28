@@ -1,16 +1,28 @@
 version: '3'
 services:
-  client: 
-    build:
-      context: ./client
-      dockerfile: ./client/Dockerfile
+  # client: 
+  #   build:
+  #     context: ./client
+  #     dockerfile: ./client/Dockerfile
+  #   ports:
+  #     - "8080:3000"
+  #   container_name: my-web-app
+  my-mongodb:
+    image: mongo:latest
+    container_name: my-mongodb
+    restart: always
     ports:
-      - "8080:3000"
-    container_name: my-web-app
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
   server: 
     build:
       context: ./server
-      dockerfile: ./server/Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "8080:3001"
-    container_name: my-web-app
+      - "5002:5002"
+    container_name: sever-app
+    environment:
+      MONGO_URI: "mongodb://my-mongodb:27017/your-database"
+    depends_on:
+      - my-mongodb
