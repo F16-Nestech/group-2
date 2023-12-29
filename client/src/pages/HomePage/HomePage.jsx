@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "../../utils/request";
+import { getAllProducts } from "../../utils/productsRequest";
 import { TextField, Button, Select, MenuItem, Pagination } from '@mui/material';
 import "./HomePage.css";
-
+// import { getAllBanners } from "../../utils/bannerRequest";
+import fakeBanners from "../../fakedata/fakebanners";
+const getAllBanners = async () => {
+  console.log(fakeBanners);
+  return fakeBanners;
+};
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
@@ -85,9 +90,50 @@ function HomePage() {
     handlePageChange(value);
   };
   
+  const [banners, setBanners] = useState([]);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCurrentBannerIndex((prevIndex) =>
+        prevIndex === banners.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Chuyển banner sau mỗi 5 giây
+
+    return () => clearTimeout(timeout);
+  }, [banners, currentBannerIndex]);
+
+  // Function to fetch banners
+  const fetchBanners = async () => {
+    try {
+      const fetchedBanners = await getAllBanners();
+      if (Array.isArray(fetchedBanners)) { // Kiểm tra nếu giá trị trả về là một mảng
+        setBanners(fetchedBanners);
+      } else {
+        console.error("getAllBanners không trả về một mảng");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="Container">
       <div className="HomepageContainer">
+      <div className="banners">
+          {banners.map((banner, index) => (
+            <img
+              key={banner.id}
+              src={banner.imageUrl}
+              alt={`Banner ${index}`}
+              className={index === currentBannerIndex ? "active" : "inactive"}
+            />
+          ))}
+        </div>
       <h4 className="filter">Lọc</h4>
         <div className="Filters">
           <TextField
