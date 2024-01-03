@@ -1,16 +1,23 @@
+const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 //ADD User
 exports.createUser = async (req, res) => {
   console.log('create user');
   try {
-    let { email, phone, password } = req.body;
-    if (!email || !password)
+    let { name, email, phone, password, confirmPassword } = req.body;
+    if (!name || !email || !phone || !password || !confirmPassword)
       return res.status(400).json({
         success: false,
         result: null,
         message: "Email , phone, password  fields they don't have been entered.",
       })
+
+    // Kiểm tra định dạng email   
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return res.status(400).json({ message: 'invalid  email' })
+    }
 
     //check mail chi ton tai duy nhat
     const existingEmailUser = await User.findOne({ email: email });
@@ -18,10 +25,19 @@ exports.createUser = async (req, res) => {
       return res.status(400).json({ error: 'email already exists!' })
     }
 
+    //Kiểm tra định dạng sđt
+    if (!phone.match(/^\d{10,11}$/)) {
+      return res.status(400).json({ message: 'invalid phone number' });
+    }
+
     //check number phone chi ton tai duy nhat
     const existingPhoneUser = await User.findOne({ phone: phone });
     if (existingPhoneUser) {
       return res.status(400).json({ error: 'Phone Number already exists!' })
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'The specified password does not match' })
     }
 
     //check long password
@@ -32,8 +48,8 @@ exports.createUser = async (req, res) => {
         message: 'Password need to be at least 8 characters long',
       })
 
-    //MA HOA PASSWORD (BO SUNG SAU)
-
+    //MA HOA PASSWORD 
+    const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = new User(req.body);
 
     const result = await newUser.save();
@@ -51,6 +67,7 @@ exports.createUser = async (req, res) => {
         name: result.name,
         email: result.email,
         phone: result.phone,
+        password: hashedPassword,
         address: result.address,
         access_token: result.access_token,
         refresh_token: result.refresh_token,
@@ -63,16 +80,65 @@ exports.createUser = async (req, res) => {
   }
 },
 
-  //GET all User
-  exports.getUsers = async (req, res) => {
-    console.log('get users');
+
+  //LOGIN USER
+
+  exports.loginUser = async (req, res) => {
     try {
-      const users = await User.find();
-      res.status(200).json(users);
+      let { email, password } = req.body;
+      if (!email || !password)
+        return res.status(400).json({
+          success: false,
+          result: null,
+          message: "Email, password  fields they don't have been entered.",
+        })
+      if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        return res.status(400).json({ message: 'invalid  email' })
+      }
+      console.log('login');
+      // const errors = validationResult(req)
+      // if (!errors.isEmpty()) {
+      //   return res.status(400).json({ errors: errors.array() })
+      // }
+
+      console.log('login1');
+      //Tìm tài khoản trong csdl
+      const user = await User.findOne({ email })
+      if (!user) {
+        return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
+      }
+
+      //So sánh mật khẩu
+      const isPasswordValid = await bcrypt.compare(password, user.password)
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
+      }
+      console.log('login3');
+      //Tạo token
+      const token = jwt.sign(
+        { userId: user._id, email: user.email, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+      )
+
+      res.status(200).json({ token })
     } catch (err) {
-      res.status(501).json(err);
+      res.status(501).json({ success: false, message: 'Error server' });
     }
-  },
+  }
+
+
+
+//GET all User
+exports.getUsers = async (req, res) => {
+  console.log('get users');
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(501).json(err);
+  }
+},
 
   //GET an User
   exports.getUser = async (req, res) => {
@@ -114,6 +180,7 @@ exports.createUser = async (req, res) => {
     }
   },
 
+
   //Update User
   exports.updateUser = async (req, res) => {
     console.log('update user');
@@ -154,6 +221,7 @@ exports.createUser = async (req, res) => {
       })
     }
   }
+
 
 //Delete User
 exports.deleteUser = async (req, res) => {

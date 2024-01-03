@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
             amount: { type: Number, required: true },
             image: { type: String, required: true },
             price: { type: Number, required: true },
+            discount: { type: Number },
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product',
@@ -17,7 +18,6 @@ const orderSchema = new mongoose.Schema({
     shippingAddress: {
         fullName: { type: String, required: true },
         address: { type: String, required: true },
-        city: { type: String, required: true },
         phone: {
             type: String,
             required: true,

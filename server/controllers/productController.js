@@ -6,8 +6,8 @@ const productController = {
     createProduct: async (req, res) => {
 
         try {
-            let { name, type, price, image_link, countInstock, rating } = req.body;
-            if (!name || !type || !price || !image_link || !countInstock || !rating) {
+            let { name, category, price, image_link, countInstock, rating } = req.body;
+            if (!name || !category || !price || !image_link || !countInstock || !rating) {
                 return res.status(400).json({
                     result: null,
                     success: false,
