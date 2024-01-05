@@ -1,9 +1,9 @@
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 //ADD User
-exports.createUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   console.log('create user');
   try {
     let { name, email, phone, password, confirmPassword } = req.body;
@@ -69,12 +69,12 @@ exports.createUser = async (req, res) => {
         phone: result.phone,
         password: hashedPassword,
         address: result.address,
-        access_token: result.access_token,
-        refresh_token: result.refresh_token,
         role: result.role,
       },
-      message: 'The User is saved correctly',
+      message: 'User is registered successfully.',
     })
+
+
   } catch (err) {
     res.status(501).json({ success: false, message: 'error server' });
   }
@@ -82,52 +82,24 @@ exports.createUser = async (req, res) => {
 
 
   //LOGIN USER
-
   exports.loginUser = async (req, res) => {
     try {
-      let { email, password } = req.body;
-      if (!email || !password)
-        return res.status(400).json({
-          success: false,
-          result: null,
-          message: "Email, password  fields they don't have been entered.",
-        })
-      if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        return res.status(400).json({ message: 'invalid  email' })
-      }
-      console.log('login');
-      // const errors = validationResult(req)
-      // if (!errors.isEmpty()) {
-      //   return res.status(400).json({ errors: errors.array() })
-      // }
-
-      console.log('login1');
-      //Tìm tài khoản trong csdl
+      const { email, password } = req.body;
       const user = await User.findOne({ email })
       if (!user) {
-        return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
+        res.status(404).json({ message: 'Wrong Email' })
       }
-
-      //So sánh mật khẩu
-      const isPasswordValid = await bcrypt.compare(password, user.password)
-      if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) {
+        res.status(404).json({ message: 'Wrong password' })
       }
-      console.log('login3');
-      //Tạo token
-      const token = jwt.sign(
-        { userId: user._id, email: user.email, role: user.role },
-        process.env.JWT_SECRET,
-        { expiresIn: '1d' }
-      )
-
-      res.status(200).json({ token })
+      if (user && validPassword) {
+        return res.status(200).json(user);
+      }
     } catch (err) {
       res.status(501).json({ success: false, message: 'Error server' });
     }
   }
-
-
 
 //GET all User
 exports.getUsers = async (req, res) => {
@@ -161,8 +133,6 @@ exports.getUsers = async (req, res) => {
           email: user.email,
           phone: user.phone,
           address: user.address,
-          access_token: user.access_token,
-          refresh_token: user.refresh_token,
           role: user.role,
         };
         return res.status(200).json({
@@ -205,10 +175,9 @@ exports.getUsers = async (req, res) => {
           _id: result._id,
           name: result.name,
           email: result.email,
+          password: result.password,
           phone: result.phone,
           address: result.address,
-          access_token: result.access_token,
-          refresh_token: result.refresh_token,
           role: result.role,
         },
         message: 'updated this User information by this id:' + req.params.id,
