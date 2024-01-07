@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
-        name: { type: String, require: true },
+        name: { type: String, required: true },
         email: {
             type: String,
             required: true,
@@ -23,13 +24,14 @@ const userSchema = new Schema(
                     return /^[0-9]{10}$/.test(v);
                 },
                 message: props => `${props.value} is not a valid phone number!`,
-            }
+            },
+            unique: true,
         },
         address: { type: String, maxlength: 100 },
-        gender: { type: String },
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
+        password: { type: String, required: true },
         access_token: { type: String, required: true },
-        refresh_token: { tyoe: String, required: true },
+        refresh_token: { type: String, required: true },
         created: { type: Date, default: Date.now() },
         updated: { type: Date, default: Date.now() },
     },
@@ -38,6 +40,8 @@ const userSchema = new Schema(
     }
 );
 
-const User = mongoose.model('User', userSchema)
+userSchema.plugin(uniqueValidator);
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

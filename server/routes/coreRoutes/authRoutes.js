@@ -1,7 +1,7 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import User from '../models/userModel'
+import User from '../../models/userModel'
 
 const router = express.Router()
 
@@ -13,7 +13,7 @@ const validateSignup = (req, res) => {
     if (!name || !email || !phone || !address || !password || !confirmPassword) {
         return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    
+
     // Kiểm tra định dạng email
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         return res.status(400).json({ message: 'Email không hợp lệ' })
@@ -50,7 +50,7 @@ router.post('/signup', validateSignup, async (req, res) => {
 
         //Check email đã tồn tại chưa
         const existingUser = await User.findOne({ email })
-        if(existingUser) {
+        if (existingUser) {
             return res.status(400).json({ message: 'Email đã được sử dụng' })
         }
 
@@ -62,7 +62,7 @@ router.post('/signup', validateSignup, async (req, res) => {
         await user.save()
 
         res.status(201).json({ message: 'Đăng ký thành công' })
-    } catch(error) {
+    } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Lỗi server' })
     }
@@ -73,7 +73,7 @@ router.post('/login', validateLogin, async (req, res) => {
     try {
         //Kiểm tra validation errors
         const errors = validationResult(req)
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
 
@@ -81,13 +81,13 @@ router.post('/login', validateLogin, async (req, res) => {
 
         //Tìm tài khoản trong csdl
         const user = await User.findOne({ email })
-        if(!user) {
+        if (!user) {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
         }
 
         //So sánh mật khẩu
         const isPasswordValid = await bcrypt.compare(password, user.password)
-        if(!isPasswordValid) {
+        if (!isPasswordValid) {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' })
         }
 
@@ -99,7 +99,7 @@ router.post('/login', validateLogin, async (req, res) => {
         )
 
         res.status(200).json({ token })
-    } catch(error) {
+    } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Lỗi server' })
     }
