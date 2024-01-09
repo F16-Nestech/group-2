@@ -10,7 +10,7 @@ services:
   my-mongodb:
     image: mongo:latest
     container_name: my-mongodb
-    restart: always
+    # restart: always
     ports:
       - "27017:27017"
     volumes:
@@ -23,6 +23,6 @@ services:
       - "5002:5002"
     container_name: sever-app
     environment:
-      MONGO_URI: "mongodb://my-mongodb:27017/your-database"
+      MONGO_URI: "mongodb://my-mongodb:27017/group2"
     depends_on:
       - my-mongodb

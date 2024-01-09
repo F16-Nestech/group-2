@@ -8,51 +8,59 @@ export default function Product() {
   const entity = 'client';
 
   const searchConfig = {
-    displayLabels: ['company'],
-    searchFields: 'company,managerSurname,managerName',
+    displayLabels: ['name'],
+    searchFields: 'name,type',
     outputValue: '_id',
   };
 
-  const entityDisplayLabels = ['company'];
+  const entityDisplayLabels = ['name'];
 
   const readColumns = [
     {
-      title: translate('Company'),
-      dataIndex: 'company',
+      title: translate('Name'),
+      dataIndex: 'name',
     },
     {
-      title: translate('Manager first name'),
-      dataIndex: 'managerName',
+      title: translate('Type'),
+      dataIndex: 'type',
     },
     {
-      title: translate('Manager last name'),
-      dataIndex: 'managerSurname',
+      title: translate('Price'),
+      dataIndex: 'price',
     },
     {
-      title: translate('Email'),
-      dataIndex: 'email',
+      title: translate('Image'),
+      dataIndex: 'image_link',
     },
     {
-      title: translate('Phone'),
-      dataIndex: 'phone',
+      title: translate('Count In Stock'),
+      dataIndex: 'countInStock',
     },
   ];
   const dataTableColumns = [
     {
-      title: translate('Company'),
-      dataIndex: 'company',
+      title: translate('Name'),
+      dataIndex: 'name',
     },
     {
-      title: translate('Manager first name'),
-      dataIndex: 'managerName',
+      title: translate('Type'),
+      dataIndex: 'type',
     },
     {
-      title: translate('Manager last name'),
-      dataIndex: 'managerSurname',
+      title: translate('Price'),
+      dataIndex: 'price',
     },
     {
-      title: translate('Email'),
-      dataIndex: 'email',
+      title: translate('Image'),
+      dataIndex: 'image_link',
+    },
+    {
+      title: translate('Count In Stock'),
+      dataIndex: 'countInStock',
+    },
+    {
+      title: translate('Rating'),
+      dataIndex: 'rating',
     },
   ];
 

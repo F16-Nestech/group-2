@@ -29,6 +29,20 @@ export default function ProductForm() {
         <Input />
       </Form.Item>
       <Form.Item
+        label={translate('type')}
+        name="type"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: validateEmptyString,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
         label={translate('Price')}
         name="price"
         rules={[
@@ -57,8 +71,8 @@ export default function ProductForm() {
         <Input />
       </Form.Item>
       <Form.Item
-        name="description"
-        label={translate('Description')}
+        name="countInStock"
+        label={translate('Count In Stock')}
         rules={[
           {
             required: true,
@@ -71,8 +85,8 @@ export default function ProductForm() {
         <Input />
       </Form.Item>
       <Form.Item
-        name="total"
-        label={translate('Total')}
+        name="rating"
+        label={translate('Rating')}
         rules={[
           {
             required: true,
