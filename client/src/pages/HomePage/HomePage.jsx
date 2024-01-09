@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "../../utils/productsRequest";
+import { Link } from 'react-router-dom';
+// import { getAllProducts } from "../../utils/productsRequest";
 import { TextField, Button, Select, MenuItem, Pagination } from '@mui/material';
 import "./HomePage.css";
 // import { getAllBanners } from "../../utils/bannerRequest";
 import fakeBanners from "../../fakedata/fakebanners";
+import getAllProducts from "../../fakedata/fakeproducts";
 const getAllBanners = async () => {
   console.log(fakeBanners);
   return fakeBanners;
@@ -36,20 +38,6 @@ function HomePage() {
     }, 500); // Đợi 500ms trước khi gửi yêu cầu, để tránh gửi quá nhiều yêu cầu khi người dùng đang nhập
     return () => clearTimeout(timer);
   }, [filters.searchTerm]); // Gọi fetchData khi searchTerm thay đổi
-
-  const fetchData = async () => {
-    try {
-      const fetchedProducts = await getAllProducts(filters);
-      setProducts(fetchedProducts.products);
-      setPagination({
-        page: fetchedProducts.pagination.page,
-        totalPages: fetchedProducts.pagination.totalPages,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
   
@@ -70,10 +58,23 @@ function HomePage() {
         return;
       }
     }
-  
-    setFilters({ ...filters, [name]: value });
+    const updatedFilters = { ...filters, [name]: value };
+    setFilters(updatedFilters);
     setMinPriceError(null);
     setMaxPriceError(null);
+    fetchData(updatedFilters);
+  };
+  const fetchData = async (updatedFilters) => {
+    try {
+      const fetchedProducts = await getAllProducts(updatedFilters || filters);
+      setProducts(fetchedProducts);
+      setPagination({
+        page: fetchedProducts.pagination.page,
+        totalPages: fetchedProducts.pagination.totalPages,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSortChange = (e) => {
@@ -172,14 +173,15 @@ function HomePage() {
         </div>
         <div className="ProductsContainer">
           <h4 style={{ borderBottom: '1px solid black', borderTop: '1px solid black', padding: '10px 30px' }}>Danh sách sản phẩm</h4>
-          <ul>
+          <ul className="ProductsList">
             {products.map((product) => (
               <li key={product._id}>
-                <p>{product.name}</p>
-                <p>Giá: {product.price}</p>
-                {product.discount && (
-                  <p>{product.discount}</p>
-                )}
+                <Link to={`${product._id}`}>
+                  <p>{product.name}</p>
+                  <img src={product.image_link} alt="" />
+                  <p>Giá: {product.price}</p>
+                  {product.discount && <p>{product.discount}</p>}
+                </Link>
               </li>
             ))}
           </ul>

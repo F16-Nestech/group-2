@@ -186,7 +186,7 @@ const productController = {
                 throw new Error('Invalid ids');
             }
 
-            const result = await Product.deleteMany({ _id: { $in: id } }).session(session);
+            const result = await Product.deleteMany({ _id: { $in: ids } }).session(session);
 
             await session.commitTransaction();
             session.endSession();
