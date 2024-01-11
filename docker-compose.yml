@@ -1,20 +1,13 @@
 version: '3'
 services:
-  # client: 
-  #   build:
-  #     context: ./client
-  #     dockerfile: ./client/Dockerfile
-  #   ports:
-  #     - "8080:3000"
-  #   container_name: my-web-app
-  my-mongodb:
-    image: mongo:latest
-    container_name: my-mongodb
-    # restart: always
+  mongodb:
+    image: mongo:6-jammy
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
-      - ./data:/data/db
+      - dbdata6:/data/db
+    networks:
+      - node-network
   server: 
     build:
       context: ./server
@@ -23,6 +16,15 @@ services:
       - "5002:5002"
     container_name: sever-app
     environment:
-      MONGO_URI: "mongodb://my-mongodb:27017/group2"
+      - MONGODB_URL=mongodb://mongodb:27017/group2
     depends_on:
-      - my-mongodb
+      - mongodb
+    networks:
+      - node-network
+
+volumes:
+  dbdata6:
+
+networks:
+  node-network:
+    driver: bridge

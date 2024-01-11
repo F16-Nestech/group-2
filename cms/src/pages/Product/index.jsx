@@ -5,7 +5,7 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Product() {
   const translate = useLanguage();
-  const entity = 'client';
+  const entity = 'products';
 
   const searchConfig = {
     displayLabels: ['name'],
