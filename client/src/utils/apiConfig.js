@@ -1,3 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000'
+const BASEURL = process.env.BASE_URL
 
-export const SIGNUP_API = `${API_BASE_URL}/api/signup`
+
+export const SIGNUP_API = `${BASEURL}/api/signup`

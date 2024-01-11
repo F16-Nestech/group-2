@@ -1,26 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
+const BASEURL = process.env.BASE_URL;
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: BASEURL,
 });
-
-const request = async (url, method, data) => {
-  try {
-    const response = await axios({ url, method, data });
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
 const getAllProducts = async (filters) => {
   try {
-    const response = await axiosInstance.get('/products', { params: filters });
+    const response = await axiosInstance.get("/products", { params: filters });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
-      throw error.response.data; 
+      throw error.response.data;
     } else {
-      throw new Error('Something went wrong'); 
+      throw new Error("Something went wrong");
     }
   }
 };
@@ -34,11 +26,12 @@ const createProduct = async (productData) => {
   }
 };
 
-
-
 const updateProduct = async (productId, updatedProductData) => {
   try {
-    const response = await axiosInstance.put(`/products/${productId}`, updatedProductData);
+    const response = await axiosInstance.put(
+      `/products/${productId}`,
+      updatedProductData
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -54,6 +47,4 @@ const deleteProduct = async (productId) => {
   }
 };
 
-
 export { getAllProducts, createProduct, updateProduct, deleteProduct };
-export default request;
