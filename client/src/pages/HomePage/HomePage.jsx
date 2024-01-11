@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-// import { getAllProducts } from "../../utils/productsRequest";
+import { getAllProducts } from "../../utils/productsRequest";
 import { TextField, Button, Select, MenuItem, Pagination } from "@mui/material";
 import "./HomePage.css";
-// import { getAllBanners } from "../../utils/bannerRequest";
-import fakeBanners from "../../fakedata/fakebanners";
-import getAllProducts from "../../fakedata/fakeproducts";
-const getAllBanners = async () => {
-  console.log(fakeBanners);
-  return fakeBanners;
-};
+import { getAllBanners } from "../../utils/bannerRequest";
+// import fakeBanners from "../../fakedata/fakebanners";
+// import getAllProducts from "../../fakedata/fakeproducts";
+// const getAllBanners = async () => {
+//   console.log(fakeBanners);
+//   return fakeBanners;
+// };
 function homePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
@@ -109,7 +109,7 @@ function homePage() {
     const timeout = setTimeout(() => {
       const lengthBanner = banners.length;
       setCurrentBannerIndex((prevIndex) =>
-      prevIndex === lengthBanner - 1 ? 0 : prevIndex + 1
+        prevIndex === lengthBanner - 1 ? 0 : prevIndex + 1
       );
     }, 5000); // Chuyển banner sau mỗi 5 giây
 
