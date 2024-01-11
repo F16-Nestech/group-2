@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const BASEURL = process.env.BASE_URL
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: BASEURL,
 });
 
 const getAllBanners = async () => {
@@ -19,11 +20,20 @@ const getAllBanners = async () => {
 
 const createBanner = async (bannerData) => {
   try {
-    const response = await axiosInstance.post(`/banners`, bannerData);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
+  const response = await axiosInstance.post('/banners', bannerData);
+  return response.data;
+} catch (error) {
+  if (error.response) {
+    console.error('Lỗi phản hồi:', error.response.data);
+    throw error.response.data; 
+  } else if (error.request) {
+    console.error('Không có phản hồi nhận được:', error.request);
+    throw 'Không có phản hồi nhận được'; 
+  } else {
+    console.error('Lỗi thiết lập yêu cầu:', error.message);
+    throw 'Lỗi thiết lập yêu cầu'; 
   }
+}
 };
 
 const updateBanner = async (bannerId, updatedBannerData) => {
@@ -31,7 +41,16 @@ const updateBanner = async (bannerId, updatedBannerData) => {
     const response = await axiosInstance.put(`/banners/${bannerId}`, updatedBannerData);
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    if (error.response) {
+      console.error('Lỗi phản hồi:', error.response.data);
+      throw error.response.data; 
+    } else if (error.request) {
+      console.error('Không có phản hồi nhận được:', error.request);
+      throw 'Không có phản hồi nhận được'; 
+    } else {
+      console.error('Lỗi thiết lập yêu cầu:', error.message);
+      throw 'Lỗi thiết lập yêu cầu'; 
+    }
   }
 };
 
@@ -40,7 +59,16 @@ const deleteBanner = async (bannerId) => {
     const response = await axiosInstance.delete(`/banners/${bannerId}`);
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    if (error.response) {
+      console.error('Lỗi phản hồi:', error.response.data);
+      throw error.response.data; 
+    } else if (error.request) {
+      console.error('Không có phản hồi nhận được:', error.request);
+      throw 'Không có phản hồi nhận được'; 
+    } else {
+      console.error('Lỗi thiết lập yêu cầu:', error.message);
+      throw 'Lỗi thiết lập yêu cầu'; 
+    }
   }
 };
 

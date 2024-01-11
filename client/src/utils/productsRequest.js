@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const BASEURL = process.env.BASE_URL
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: BASEURL,
 });
 const getAllProducts = async (filters) => {
     try {
@@ -46,4 +47,7 @@ const getAllProducts = async (filters) => {
   };
   
   
-  export { getAllProducts, createProduct, updateProduct, deleteProduct };
+  export { getAllProducts, 
+          createProduct, 
+          updateProduct, 
+          deleteProduct };

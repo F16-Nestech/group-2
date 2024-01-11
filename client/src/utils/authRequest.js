@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const BASEURL = process.env.BASE_URL
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: BASEURL,
 });
 
 const request = async (url, method, data) => {

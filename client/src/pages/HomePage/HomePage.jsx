@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 // import { getAllProducts } from "../../utils/productsRequest";
-import { TextField, Button, Select, MenuItem, Pagination } from '@mui/material';
+import { TextField, Button, Select, MenuItem, Pagination } from "@mui/material";
 import "./HomePage.css";
 // import { getAllBanners } from "../../utils/bannerRequest";
 import fakeBanners from "../../fakedata/fakebanners";
@@ -10,16 +9,16 @@ const getAllBanners = async () => {
   console.log(fakeBanners);
   return fakeBanners;
 };
-function HomePage() {
+function homePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
   const [maxPriceError, setMaxPriceError] = useState(null);
   const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
-    searchTerm: '',
-    sortBy: 'price',
-    sortOrder: 'asc',
+    searchTerm: "",
+    sortBy: "price",
+    sortOrder: "asc",
     page: 1,
     perPage: 15,
   });
@@ -31,7 +30,7 @@ function HomePage() {
   useEffect(() => {
     fetchData();
   }, [filters]); // Gọi fetchData khi filters thay đổi
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchData();
@@ -40,20 +39,28 @@ function HomePage() {
   }, [filters.searchTerm]); // Gọi fetchData khi searchTerm thay đổi
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === "minPrice" || name === "maxPrice") {
       const intValue = parseInt(value);
       if (value !== "" && (isNaN(intValue) || intValue < 0)) {
-        name === "minPrice" ? setMinPriceError("Giá trị phải là số nguyên dương") : setMaxPriceError("Giá trị phải là số nguyên dương");
+        name === "minPrice"
+          ? setMinPriceError("Giá trị phải là số nguyên dương")
+          : setMaxPriceError("Giá trị phải là số nguyên dương");
         return;
       }
-  
-      if (name === "minPrice" && (intValue >= filters.maxPrice || filters.maxPrice === '')) {
+
+      if (
+        name === "minPrice" &&
+        (intValue >= filters.maxPrice || filters.maxPrice === "")
+      ) {
         setMinPriceError("Min Price phải nhỏ hơn Max Price");
         return;
       }
-  
-      if (name === "maxPrice" && (intValue <= filters.minPrice || filters.minPrice === '')) {
+
+      if (
+        name === "maxPrice" &&
+        (intValue <= filters.minPrice || filters.minPrice === "")
+      ) {
         setMaxPriceError("Max Price phải lớn hơn Min Price");
         return;
       }
@@ -79,7 +86,7 @@ function HomePage() {
 
   const handleSortChange = (e) => {
     const { value } = e.target;
-    const [sortBy, sortOrder] = value.split(',');
+    const [sortBy, sortOrder] = value.split(",");
     setFilters({ ...filters, sortBy, sortOrder });
   };
 
@@ -90,7 +97,7 @@ function HomePage() {
   const handlePaginationChange = (event, value) => {
     handlePageChange(value);
   };
-  
+
   const [banners, setBanners] = useState([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
@@ -100,8 +107,9 @@ function HomePage() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      const lengthBanner = banners.length;
       setCurrentBannerIndex((prevIndex) =>
-        prevIndex === banners.length - 1 ? 0 : prevIndex + 1
+      prevIndex === lengthBanner - 1 ? 0 : prevIndex + 1
       );
     }, 5000); // Chuyển banner sau mỗi 5 giây
 
@@ -112,7 +120,8 @@ function HomePage() {
   const fetchBanners = async () => {
     try {
       const fetchedBanners = await getAllBanners();
-      if (Array.isArray(fetchedBanners)) { // Kiểm tra nếu giá trị trả về là một mảng
+      if (Array.isArray(fetchedBanners)) {
+        // Kiểm tra nếu giá trị trả về là một mảng
         setBanners(fetchedBanners);
       } else {
         console.error("getAllBanners không trả về một mảng");
@@ -123,9 +132,9 @@ function HomePage() {
   };
 
   return (
-    <div className="Container">
-      <div className="HomepageContainer">
-      <div className="banners">
+    <div className="container">
+      <div className="homepageContainer">
+        <div className="banners">
           {banners.map((banner, index) => (
             <img
               key={banner.id}
@@ -135,8 +144,8 @@ function HomePage() {
             />
           ))}
         </div>
-      <h4 className="filter">Lọc</h4>
-        <div className="Filters">
+        <h4 className="filter">Lọc</h4>
+        <div className="filters">
           <TextField
             type="text"
             name="searchTerm"
@@ -144,7 +153,7 @@ function HomePage() {
             size="small"
             value={filters.searchTerm}
             onChange={handleFilterChange}
-            style={{ width: '300px' }}
+            style={{ width: "300px" }}
           />
           <TextField
             type="number"
@@ -166,22 +175,32 @@ function HomePage() {
             onChange={handleFilterChange}
             inputProps={{ min: 0 }}
           />
-          <Select value={`${filters.sortBy},${filters.sortOrder}`} onChange={handleSortChange} size="small">
+          <Select
+            value={`${filters.sortBy},${filters.sortOrder}`}
+            onChange={handleSortChange}
+            size="small"
+          >
             <MenuItem value="price,asc">Tăng dần</MenuItem>
             <MenuItem value="price,desc">Giảm dần</MenuItem>
           </Select>
         </div>
-        <div className="ProductsContainer">
-          <h4 style={{ borderBottom: '1px solid black', borderTop: '1px solid black', padding: '10px 30px' }}>Danh sách sản phẩm</h4>
-          <ul className="ProductsList">
+        <div className="productsContainer">
+          <h4
+            style={{
+              borderBottom: "1px solid black",
+              borderTop: "1px solid black",
+              padding: "10px 30px",
+            }}
+          >
+            Danh sách sản phẩm
+          </h4>
+          <ul className="productsList">
             {products.map((product) => (
               <li key={product._id}>
-                <Link to={`${product._id}`}>
-                  <p>{product.name}</p>
-                  <img src={product.image_link} alt="" />
-                  <p>Giá: {product.price}</p>
-                  {product.discount && <p>{product.discount}</p>}
-                </Link>
+                <p>{product.name}</p>
+                <img src={product.image_link} alt="" />
+                <p>Giá: {product.price}</p>
+                {product.discount && <p>{product.discount}</p>}
               </li>
             ))}
           </ul>
@@ -200,4 +219,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default homePage;
