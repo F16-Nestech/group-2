@@ -3,8 +3,9 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Container, Typography, TextField, Button, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import "./SignupPage.css";
-import request from "../../utils/request";
+import request from "../../utils/authRequest";
 import { SIGNUP_API } from "../../utils/apiConfig";
+import { callCMSAPI } from "../../utils/apiUtils";
 
 const SignupPage = () => {
   const initialValues = {
@@ -15,6 +16,8 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
   };
+  // const handleSubmit = async (values, { setSubmitting, resetForm, responseStatus }) => {
+  //   const navigate = useNavigate();
 
   const [signupStatus, setSignupStatus] = useState({});
 
@@ -37,7 +40,6 @@ const SignupPage = () => {
   const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#429A9D', // Thay đổi màu nền tại đây
     marginTop: '10px', // Thêm khoảng cách phía trên tại đây
-    // Các tùy chỉnh khác nếu bạn muốn
     '&:hover': {
       backgroundColor: '#429A9D', // Màu nền khi hover
     },
