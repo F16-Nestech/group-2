@@ -30,6 +30,7 @@ const userSchema = new Schema(
         address: { type: String, maxlength: 100 },
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
         password: { type: String, required: true },
+        confirmPassword: { type: String, required: true },
         access_token: { type: String, required: true },
         refresh_token: { type: String, required: true },
         created: { type: Date, default: Date.now() },

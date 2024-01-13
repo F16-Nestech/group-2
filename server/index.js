@@ -2,16 +2,19 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-// dotenv.config()
+dotenv.config()
 const app = express()
 
 // import routes
-const userRouter = require('./routes/coreRoutes/userRoutes.js');
-const productRouter = require('../server/routes/coreRoutes/productRoutes')
+const userRouter = require('../server/routes/coreRoutes/userRoutes');
+const productRouter = require('../server/routes/coreRoutes/productRoutes');
+const orderRouter = require('../server/routes/coreRoutes/orderRoutes');
+const transactionRouter = require('../server/routes/coreRoutes/transactionRoutes');
 
 
 const PORT = process.env.PORT || 5002
 
+app.use(express.static("public"))
 app.use(bodyParser.json())
 app.use(cors())
 
@@ -32,7 +35,8 @@ app.get('/', (req, res) => {
 });
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
-
+app.use("/api/v1/oder", orderRouter);
+app.use("/api/v1/transaction", transactionRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
