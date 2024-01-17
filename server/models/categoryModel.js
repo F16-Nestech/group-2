@@ -1,11 +1,30 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
+const categorySchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        slug: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        type: {
+            type: String,
+        },
+        categoryImage: { type: String },
+        parentId: {
+            type: String,
+        },
+        createdBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
 
-const categorySchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    parent_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
-    sort_order: { type: Number, default: 0 },
-});
-
-const Category = mongoose.model('Category', categorySchema)
-
-export default Category
+module.exports = mongoose.model("Category", categorySchema);
