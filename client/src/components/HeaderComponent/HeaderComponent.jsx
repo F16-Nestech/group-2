@@ -23,7 +23,7 @@ function HeaderComponent() {
           <a id="register" href="/register">
             Đăng kí
           </a>
-          <a id="signin" href="">
+          <a id="signin" href="/signin">
             Đăng nhập
           </a>
         </FisrtHeaderLink>

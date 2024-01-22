@@ -28,7 +28,7 @@ const SignupPage = () => {
         setSubmitting(false);
         return;
       }
-
+      console.log(values);
       const response = await request(SIGNUP_API, 'post', values);
       setSignupStatus({ success: true, message: response.message });
       resetForm();
@@ -82,8 +82,6 @@ const SignupPage = () => {
                 <Field as={TextField} type="password" name="password" required />
                 <ErrorMessage name="password" component="div" />
               </div>
-
-
               <div className="textField">
                 <Typography>Xác nhận mật khẩu:</Typography>
                 <Field as={TextField} type="password" name="confirmPassword" required />
