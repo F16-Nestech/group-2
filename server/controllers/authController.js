@@ -113,11 +113,11 @@ const authController = {
             const { email, password } = req.body;
             const user = await User.findOne({ email })
             if (!user) {
-                res.status(404).json({ message: 'Wrong Email' })
+                res.status(404).json({success: false, message: 'Wrong Email' })
             }
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
-                res.status(404).json({ message: 'Wrong password' })
+                res.status(404).json({success: false, message: 'Wrong password' })
             }
             if (user && validPassword) {
 
