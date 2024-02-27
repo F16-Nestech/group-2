@@ -7,7 +7,7 @@ const app = express()
 
 // import routes
 const userRouter = require('../server/routes/coreRoutes/userRoutes');
-const productRouter = require('../server/routes/coreRoutes/productRoutes');
+const productRouter = require('./routes/coreRoutes/productRoutes.js');;
 const orderRouter = require('../server/routes/coreRoutes/orderRoutes');
 const transactionRouter = require('../server/routes/coreRoutes/transactionRoutes');
 
@@ -20,13 +20,20 @@ app.use(cors())
 
 
 //CONNECT DB
-mongoose.connect(`mongodb+srv://laonhi100:200145LUC@osm-shop.2wnnbil.mongodb.net/?retryWrites=true&w=majority`)
-    .then(() => {
-        console.log('connect DB success');
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+// mongoose.connect(`mongodb+srv://laonhi100:200145LUC@osm-shop.2wnnbil.mongodb.net/?retryWrites=true&w=majority`)
+//     .then(() => {
+//         console.log('connect DB success');
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     })
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 
 // API
