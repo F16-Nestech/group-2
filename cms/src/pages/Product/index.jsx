@@ -5,54 +5,62 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Product() {
   const translate = useLanguage();
-  const entity = 'client';
+  const entity = 'products';
 
   const searchConfig = {
-    displayLabels: ['company'],
-    searchFields: 'company,managerSurname,managerName',
+    displayLabels: ['name'],
+    searchFields: 'name,type',
     outputValue: '_id',
   };
 
-  const entityDisplayLabels = ['company'];
+  const entityDisplayLabels = ['name'];
 
   const readColumns = [
     {
-      title: translate('Company'),
-      dataIndex: 'company',
+      title: translate('Name'),
+      dataIndex: 'name',
     },
     {
-      title: translate('Manager first name'),
-      dataIndex: 'managerName',
+      title: translate('Type'),
+      dataIndex: 'type',
     },
     {
-      title: translate('Manager last name'),
-      dataIndex: 'managerSurname',
+      title: translate('Price'),
+      dataIndex: 'price',
     },
     {
-      title: translate('Email'),
-      dataIndex: 'email',
+      title: translate('Image'),
+      dataIndex: 'image',
     },
     {
-      title: translate('Phone'),
-      dataIndex: 'phone',
+      title: translate('Count In Stock'),
+      dataIndex: 'countInStock',
+    },
+    {
+      title: translate('Rating'),
+      dataIndex: 'rating',
     },
   ];
   const dataTableColumns = [
     {
-      title: translate('Company'),
-      dataIndex: 'company',
+      title: translate('Name'),
+      dataIndex: 'name',
     },
     {
-      title: translate('Manager first name'),
-      dataIndex: 'managerName',
+      title: translate('Type'),
+      dataIndex: 'type',
     },
     {
-      title: translate('Manager last name'),
-      dataIndex: 'managerSurname',
+      title: translate('Price'),
+      dataIndex: 'price',
     },
     {
-      title: translate('Email'),
-      dataIndex: 'email',
+      title: translate('Image'),
+      dataIndex: 'image',
+    },
+    {
+      title: translate('Count In Stock'),
+      dataIndex: 'countInStock',
     },
   ];
 

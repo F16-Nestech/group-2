@@ -135,7 +135,7 @@ const request = {
       }
       query = query.slice(0, -1);
 
-      const response = await axios.get(entity + '/list' + query);
+      const response = await axios.get(entity + '/listProducts');
 
       successHandler(response, {
         notifyOnSuccess: false,
