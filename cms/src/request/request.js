@@ -127,15 +127,28 @@ const request = {
     }
   },
 
+  // list: async ({ entity, options = {} }) => {
+  //   try {
+  //     let query = '?';
+  //     for (var key in options) {
+  //       query += key + '=' + options[key] + '&';
+  //     }
+  //     query = query.slice(0, -1);
+
+  //     const response = await axios.get(entity + '/list' + query);
+
+  //     successHandler(response, {
+  //       notifyOnSuccess: false,
+  //       notifyOnFailed: false,
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     return errorHandler(error);
+  //   }
+  // },
   list: async ({ entity, options = {} }) => {
     try {
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
-
-      const response = await axios.get(entity + '/list' + query);
+      const response = await axios.get(entity + '/listProducts');
 
       successHandler(response, {
         notifyOnSuccess: false,

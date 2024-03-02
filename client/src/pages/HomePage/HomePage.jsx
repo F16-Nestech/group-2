@@ -9,7 +9,7 @@ import { getAllBanners } from "../../utils/bannerRequest";
 //   console.log(fakeBanners);
 //   return fakeBanners;
 // };
-function homePage() {
+function HomePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
   const [maxPriceError, setMaxPriceError] = useState(null);
@@ -219,4 +219,4 @@ function homePage() {
   );
 }
 
-export default homePage;
+export default HomePage;
