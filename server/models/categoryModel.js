@@ -17,12 +17,7 @@ const categorySchema = new mongoose.Schema(
         categoryImage: { type: String },
         parentId: {
             type: String,
-        },
-        createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "user",
-            required: true,
-        },
+        }
     },
     { timestamps: true }
 );

@@ -30,11 +30,9 @@ function createCategories(categories, parentId = null) {
 exports.addCategory = async (req, res) => {
     try {
         console.log(req.body);
-        console.log(req.user); 
         const categoryObj = {
             name: req.body.name,
             slug: `${slugify(req.body.name)}-${shortid.generate()}`,
-            createdBy: req.user._id,
         };
 
         if (req.file) {
@@ -104,11 +102,9 @@ exports.deleteCategories = async (req, res) => {
     for (let i = 0; i < ids.length; i++) {
         const deleteCategory = await Category.findOneAndDelete({
             _id: ids[i]._id,
-            createdBy: req.user._id,
         });
         deletedCategories.push(deleteCategory);
     }
-
     if (deletedCategories.length == ids.length) {
         res.status(201).json({ message: "Categories removed" });
     } else {
