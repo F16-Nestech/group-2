@@ -27,39 +27,38 @@ function createCategories(categories, parentId = null) {
 }
 
 //add Category
-exports.addCategory = (req, res) => {
-    const categoryObj = {
-        name: req.body.name,
-        slug: `${slugify(req.body.name)}-${shortid.generate()}`,
-        createdBy: req.user._id,
-    };
+exports.addCategory = async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.user); 
+        const categoryObj = {
+            name: req.body.name,
+            slug: `${slugify(req.body.name)}-${shortid.generate()}`,
+            createdBy: req.user._id,
+        };
 
-    if (req.file) {
-        categoryObj.categoryImage = "/public/" + req.file.filename;
-    }
-
-    if (req.body.parentId) {
-        categoryObj.parentId = req.body.parentId;
-    }
-
-    const cat = new Category(categoryObj);
-    cat.save((error, category) => {
-        if (error) return res.status(400).json({ error });
-        if (category) {
-            return res.status(201).json({ category });
+        if (req.file) {
+            categoryObj.categoryImage = "/public/" + req.file.filename;
         }
-    });
+
+        const cat = new Category(categoryObj);
+        const category = await cat.save();
+        return res.status(201).json({ category });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
 };
 
-exports.getCategories = (req, res) => {
-    Category.find({}).exec((error, categories) => {
-        if (error) return res.status(400).json({ error });
-        if (categories) {
-            const categoryList = createCategories(categories);
-            res.status(200).json({ categoryList });
-        }
-    });
+exports.getCategories = async (req, res) => {
+    try {
+        const categories = await Category.find({}).exec();
+        const categoryList = createCategories(categories);
+        res.status(200).json({ categoryList });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
 };
+
 
 // update category
 exports.updateCategories = async (req, res) => {

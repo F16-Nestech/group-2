@@ -1,10 +1,10 @@
 const express = require('express');
 const categoryController = require('../../controllers/categoryController');
-
+const authJwt = require('../../middleware/authJwt');
 const router = express.Router()
 
 router
-    .post("/add", categoryController.addCategory)
+    .post("/add",categoryController.addCategory)
     .get("/list", categoryController.getCategories)
     .put("/update/:id", categoryController.updateCategories)
     .delete("/delete/:id", categoryController.deleteCategories)
