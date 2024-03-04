@@ -2,7 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-// dotenv.config()
+const dotenv = require('dotenv')
+dotenv.config()
 const app = express()
 
 // import routes
@@ -13,18 +14,20 @@ const productRouter = require('./routes/coreRoutes/productRoutes.js');
 const PORT = process.env.PORT || 5002
 
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  credentials: true // Enable credentials
+}));
+
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 
-//CONNECT DB
-// mongoose.connect(`mongodb+srv://laonhi100:200145LUC@osm-shop.2wnnbil.mongodb.net/?retryWrites=true&w=majority`)
-//     .then(() => {
-//         console.log('connect DB success');
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     })
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
   })

@@ -31,6 +31,21 @@ export default function OrderForm({ isUpdateForm = false }) {
       </Form.Item>
 
       <Form.Item
+        label={translate('Name')}
+        name="name"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: validateEmptyString,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
         label={translate('Products')}
         name="products"
         rules={[
@@ -69,7 +84,7 @@ export default function OrderForm({ isUpdateForm = false }) {
         <InputNumber min={0} precision={2} prefix="$" style={{ width: '100%' }} />
       </Form.Item>
 
-      <Form.Item
+      {/* <Form.Item
         label={translate('status')}
         name="status"
         rules={[
@@ -84,6 +99,21 @@ export default function OrderForm({ isUpdateForm = false }) {
           <Select.Option value="delivered">{translate('Delivered')}</Select.Option>
           <Select.Option value="cancelled">{translate('Cancelled')}</Select.Option>
         </Select>
+      </Form.Item> */}
+
+      <Form.Item
+        label={translate('Address')}
+        name="address"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: validateEmptyString,
+          },
+        ]}
+      >
+        <Input />
       </Form.Item>
 
       <Form.Item

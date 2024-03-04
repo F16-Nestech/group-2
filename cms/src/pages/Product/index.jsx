@@ -7,6 +7,8 @@ export default function Product() {
   const translate = useLanguage();
   const entity = 'products';
 
+  console.log('Go to here')
+
   const searchConfig = {
     displayLabels: ['name'],
     searchFields: 'name,type',

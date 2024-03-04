@@ -4,6 +4,8 @@ import { API_BASE_URL } from '@/config/serverApiConfig';
 import errorHandler from './errorHandler';
 import successHandler from './successHandler';
 
+console.log('API_BASE_URL: ', API_BASE_URL);
+
 axios.defaults.baseURL = API_BASE_URL;
 axios.defaults.withCredentials = true;
 
@@ -128,6 +130,7 @@ const request = {
   },
 
   list: async ({ entity, options = {} }) => {
+    console.log('AAAAAA: ', entity);
     try {
       let query = '?';
       for (var key in options) {

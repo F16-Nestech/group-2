@@ -4,7 +4,7 @@ const Product = require('../models/productModel');
 const productController = {
     //Add Product
     createProduct: async (req, res) => {
-
+        console.log('create a product');
         try {
             let { name, type, price, image_link, countInstock, rating } = req.body;
             if (!name || !type || !price || !image_link || !countInstock || !rating) {
@@ -35,6 +35,7 @@ const productController = {
                     message: "product couldn't save correctly",
                 });
             }
+            console.log(result)
             return res.status(200).send({
                 success: true,
                 result: {
@@ -49,6 +50,7 @@ const productController = {
                 message: 'The product is saved correctly',
             })
         } catch (err) {
+            console.log(err);
             res.status(501).json({ success: false, message: 'error server' });
         }
     },
