@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "../../utils/productsRequest";
+// import { getAllProducts } from "../../utils/productsRequest";
 import { TextField, Button, Select, MenuItem, Pagination } from "@mui/material";
 import "./HomePage.css";
-import { getAllBanners } from "../../utils/bannerRequest";
-// import fakeBanners from "../../fakedata/fakebanners";
-// import getAllProducts from "../../fakedata/fakeproducts";
-// const getAllBanners = async () => {
-//   console.log(fakeBanners);
-//   return fakeBanners;
-// };
+//import { getAllBanners } from "../../utils/bannerRequest";
+import fakeBanners from "../../fakedata/fakebanners";
+import getAllProducts from "../../fakedata/fakeproducts";
+const getAllBanners = async () => {
+  console.log(fakeBanners);
+  return fakeBanners;
+};
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
@@ -33,7 +33,7 @@ function HomePage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchData();
+      fetchData(); 
     }, 500); // Đợi 500ms trước khi gửi yêu cầu, để tránh gửi quá nhiều yêu cầu khi người dùng đang nhập
     return () => clearTimeout(timer);
   }, [filters.searchTerm]); // Gọi fetchData khi searchTerm thay đổi
