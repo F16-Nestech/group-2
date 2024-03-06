@@ -86,7 +86,7 @@ exports.getUser = async (req, res) => {
         message: "server error",
       });
     }
-  });
+  };
 
 
 //Delete User

@@ -1,16 +1,15 @@
 import React from 'react'
 import HeaderComponent from '../HeaderComponent/HeaderComponent';
 import FooterComponent from '../FooterComponent/FooterComponent';
-import {Default,Content,Footer} from './Defaultstyle';
+import './DefualtStyle.css';
 const DefaultComponent = ({ children }) => {
     return (
-        <Default>
-            <HeaderComponent />
-            <Content>{children}</Content>
-            <Footer>
-                <FooterComponent />
-            </Footer>
-        </Default>
+        <div className='Default'>
+            <div className='HeaderComponent'><HeaderComponent /></div>
+            <div className='children'>{children}</div>
+            <div className='FooterComponent'><FooterComponent /></div>
+        </div>
+
     )
 }
 export default DefaultComponent

@@ -38,9 +38,7 @@
 }
 
 .productsList li {
-  width: calc(
-    33.33% - 20px
-  ); /* Chiếm 1/3 chiều rộng và có khoảng cách giữa các sản phẩm */
+  width: calc(33.33% - 20px);
   margin: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;

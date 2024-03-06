@@ -40,7 +40,7 @@ function HeaderComponent() {
           <Input.Search placeholder="Search" onSearch={onSearch} enterButton />
         </Col>
         <Col span={8} style={{ textAlign: "right" }}>
-          <a href="/products">
+          <a href="/orders">
             <ShoppingCartOutlined />
           </a>
         </Col>
