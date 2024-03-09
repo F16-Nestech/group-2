@@ -68,4 +68,7 @@ h4 {
       background-color: #00ff00; /* Màu nền mong muốn khi được chọn */
     }
   }
-  
+  .inforUser{
+    display: flex;
+    flex-direction: column;
+  }
