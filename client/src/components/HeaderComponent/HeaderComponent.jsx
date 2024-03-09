@@ -23,7 +23,7 @@ function HeaderComponent() {
           <a id="register" href="/register">
             Đăng kí
           </a>
-          <a id="signin" href="">
+          <a id="signin" href="/signin">
             Đăng nhập
           </a>
         </FisrtHeaderLink>
@@ -40,7 +40,7 @@ function HeaderComponent() {
           <Input.Search placeholder="Search" onSearch={onSearch} enterButton />
         </Col>
         <Col span={8} style={{ textAlign: "right" }}>
-          <a href="">
+          <a href="/orders">
             <ShoppingCartOutlined />
           </a>
         </Col>

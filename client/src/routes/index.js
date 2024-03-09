@@ -3,10 +3,16 @@ import HomePage from "../pages/HomePage/HomePage";
 import NotFound from "../pages/NotFound/NotFound";
 import OrdersPage from "../pages/OrdersPage/OrdersPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
+import SigninPage from "../pages/SigninPage/SigninPage"
 export const routes = [
     {
         path: '/',
         page: HomePage,
+        isShowHeader: true,
+    },
+    {
+        path: '/signin',
+        page: SigninPage,
         isShowHeader: true,
     },
     {

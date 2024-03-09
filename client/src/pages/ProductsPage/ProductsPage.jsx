@@ -1,9 +1,9 @@
 import React from 'react'
 
-function ProductsPage() {
+function OrdersPage() {
     return (
-        <div>ProductsPage</div>
+        <div>ProducePage</div>
     )
 }
 
-export default ProductsPage;
+export default OrdersPage

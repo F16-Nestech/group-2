@@ -12,4 +12,4 @@ const callCMSAPI = async (data) => {
     }
 }
 
-module.exports = { callCMSAPI }
+export {callCMSAPI} 

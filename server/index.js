@@ -6,12 +6,16 @@ const cors = require('cors')
 const app = express()
 
 // import routes
-const userRouter = require('./routes/coreRoutes/userRoutes.js');
+const userRouter = require('./routes/coreRoutes/userRoutes');
 const productRouter = require('./routes/coreRoutes/productRoutes.js');
+const orderRouter = require('./routes/coreRoutes/orderRoutes');
+const transactionRouter = require('../server/routes/coreRoutes/transactionRoutes');
+const categoryRouter = require('../server/routes/coreRoutes/categoryRoutes')
 
 
-const PORT = process.env.PORT || 5002
+const PORT = process.env.PORT || 5000
 
+app.use(express.static("public"))
 app.use(bodyParser.json())
 app.use(cors())
 
@@ -24,7 +28,9 @@ app.use(cors())
 //     .catch((err) => {
 //         console.log(err);
 //     })
+
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect("mongodb+srv://laonhi100:200145LUC@osm-shop.2wnnbil.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -39,7 +45,9 @@ app.get('/', (req, res) => {
 });
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
-
+app.use("/api/v1/oder", orderRouter);
+app.use("/api/v1/transaction", transactionRouter);
+app.use("/api/v1/category", categoryRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
