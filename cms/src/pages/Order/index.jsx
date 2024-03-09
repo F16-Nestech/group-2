@@ -7,6 +7,9 @@ import useLanguage from '@/locale/useLanguage';
 export default function Order() {
   const translate = useLanguage();
   const entity = 'order';
+
+  console.log('Go to order page')
+
   const searchConfig = {
     displayLabels: ['orderId', 'status'],
     searchFields: 'orderId,status',

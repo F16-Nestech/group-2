@@ -130,7 +130,7 @@ const request = {
   },
 
   list: async ({ entity, options = {} }) => {
-    console.log('AAAAAA: ', entity);
+    console.log('request entity: ', entity);
     try {
       let query = '?';
       for (var key in options) {
@@ -138,7 +138,7 @@ const request = {
       }
       query = query.slice(0, -1);
 
-      const response = await axios.get(entity + '/listProducts');
+      const response = await axios.get(entity + '/list');
 
       successHandler(response, {
         notifyOnSuccess: false,

@@ -7,7 +7,7 @@ const router = express.Router()
 router.post("/create", productController.createProduct);
 
 //Get all Products
-router.get("/listProducts", productController.getProducts);
+router.get("/list", productController.getProducts);
 
 //Get an Products
 router.get("/read-Product/:id", productController.getProduct);
@@ -23,4 +23,3 @@ router.delete("/delete-many", productController.deleteManyProducts);
 
 
 module.exports = router;
-
