@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const callCMSAPI = async (data) => {
+export const callCMSAPI = async (data) => {
     try {
         // Điền đường dẫn thực tế của API đăng ký trên CMS
         const response = await axios.post('http://your_backend_url_server.com/', data)
@@ -11,5 +11,3 @@ const callCMSAPI = async (data) => {
         throw error
     }
 }
-
-module.exports = { callCMSAPI }

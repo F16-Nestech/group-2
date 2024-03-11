@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CrudModule from '@/modules/CrudModule/CrudModule';
 import OrderForm from '@/forms/OrderForm'; // Ensure to create this form
 import useLanguage from '@/locale/useLanguage';

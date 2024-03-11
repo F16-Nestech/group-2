@@ -45,7 +45,6 @@ export const crud = {
       });
 
       let data = await request.list({ entity, options });
-      console.log('data: ', data)
       if (data) {
         const result = {
           items: data,

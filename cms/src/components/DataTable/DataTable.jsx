@@ -34,6 +34,8 @@ export default function DataTable({ config, extra = [] }) {
   const { panel, collapsedBox, modal, readBox, editBox, advancedBox } = crudContextAction;
   const translate = useLanguage();
 
+  console.log('AAAAAAA')
+
   const items = [
     {
       label: translate('Show'),
@@ -126,8 +128,6 @@ export default function DataTable({ config, extra = [] }) {
   ];
 
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
-
-  console.log('listResult: ', listResult)
 
   const { pagination, items: dataSource } = listResult;
 
