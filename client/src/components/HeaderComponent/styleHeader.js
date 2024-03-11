@@ -30,7 +30,7 @@ export const WrapperHeader = styled(Row)`
   }
 `;
 export const FirstHeader = styled(Row)`
-  padding: 0.05em 1%;
+  margin-bottom: 200px;
   background-color: #333333;
   padding: 0.05em 1%;
     max-width:2000px;

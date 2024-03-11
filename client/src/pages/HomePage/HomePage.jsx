@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 // import { getAllProducts } from "../../utils/productsRequest";
-import { TextField, Button, Select, MenuItem, Pagination } from "@mui/material";
+import { TextField, Select, MenuItem, Pagination } from "@mui/material";
 import "./HomePage.css";
 //import { getAllBanners } from "../../utils/bannerRequest";
 import fakeBanners from "../../fakedata/fakebanners";
 import getAllProducts from "../../fakedata/fakeproducts";
 const getAllBanners = async () => {
-  console.log(fakeBanners);
   return fakeBanners;
 };
 function HomePage() {
@@ -76,8 +75,8 @@ function HomePage() {
       const fetchedProducts = await getAllProducts(updatedFilters || filters);
       setProducts(fetchedProducts);
       setPagination({
-        page: fetchedProducts.pagination.page,
-        totalPages: fetchedProducts.pagination.totalPages,
+        page: fetchedProducts.pagination?.page,
+        totalPages: fetchedProducts.pagination?.totalPages,
       });
     } catch (error) {
       console.error(error);
