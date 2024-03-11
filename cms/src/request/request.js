@@ -148,7 +148,7 @@ const request = {
   // },
   list: async ({ entity, options = {} }) => {
     try {
-      const response = await axios.get(entity + '/listProducts');
+      const response = await axios.get(entity + '/products');
 
       successHandler(response, {
         notifyOnSuccess: false,

@@ -47,6 +47,10 @@ export default function Order() {
       dataIndex: 'orderId',
     },
     {
+      title: translate('Name'),
+      dataIndex: 'name',
+    },
+    {
       title: translate('Product'),
       dataIndex: 'products',
     },

@@ -45,14 +45,15 @@ export const crud = {
       });
 
       let data = await request.list({ entity, options });
+      console.log('data: ', data);
 
-      if (data.success === true) {
+      if (data) {
         const result = {
-          items: data.result,
+          items: data,
           pagination: {
-            current: parseInt(data.pagination.page, 10),
+            current: 1,
             pageSize: options?.items,
-            total: parseInt(data.pagination.count, 10),
+            total: 1,
           },
         };
         dispatch({

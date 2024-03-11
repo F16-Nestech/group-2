@@ -66,6 +66,11 @@ function Sidebar({ collapsible }) {
       label: <Link to={'/offer'}>{translate('offer')}</Link>,
     },
     {
+      key: 'order',
+      icon: <FileOutlined />,
+      label: <Link to={'/order'}>{translate('order')}</Link>,
+    },
+    {
       key: 'product',
       icon: <BoxPlotOutlined />,
       label: <Link to={'/product'}>{translate('product')}</Link>,

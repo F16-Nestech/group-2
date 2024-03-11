@@ -31,8 +31,38 @@ export default function OrderForm({ isUpdateForm = false }) {
       </Form.Item>
 
       <Form.Item
+        label={translate('Name')}
+        name="name"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: validateEmptyString,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
         label={translate('Products')}
         name="products"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: validateEmptyString,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label={translate('Address')}
+        name="address"
         rules={[
           {
             required: true,
