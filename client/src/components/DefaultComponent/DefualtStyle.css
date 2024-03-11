@@ -9,6 +9,7 @@
   flex: 1;
 }
 .FooterComponent {
+  margin-top: 300px;
   flex-shrink: 0;
   padding-top: 10px;
 }

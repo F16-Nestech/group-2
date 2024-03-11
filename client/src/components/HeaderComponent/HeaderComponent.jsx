@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import { Col, Input } from "antd";
 import {
@@ -9,7 +11,6 @@ import {
 } from "./styleHeader";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import imageSrc from "../../assets/images/logo.png";
-const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 function HeaderComponent() {
   return (
@@ -17,7 +18,7 @@ function HeaderComponent() {
       <FirstHeader>
         <p>Hotline: 0911183701</p>
         <FisrtHeaderLink>
-          <a id="quantri" href="">
+          <a id="quantri" href="#">
             Quản trị Website
           </a>
           <a id="register" href="/register">
