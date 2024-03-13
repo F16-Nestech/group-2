@@ -10,6 +10,8 @@ const app = express()
 const userRouter = require('./routes/coreRoutes/userRoutes.js');
 const productRouter = require('./routes/coreRoutes/productRoutes.js');
 const orderRouter = require('./routes/coreRoutes/orderRoutes.js');
+const invoiceRouter = require('./routes/coreRoutes/invoiceRoutes.js');
+const paymentRouter = require('./routes/coreRoutes/paymentRoutes.js');
 
 
 const PORT = process.env.PORT || 5002
@@ -44,6 +46,8 @@ app.get('/', (req, res) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/invoices", invoiceRouter);
+app.use("/api/v1/payments", paymentRouter);
 
 
 app.listen(PORT, () => {

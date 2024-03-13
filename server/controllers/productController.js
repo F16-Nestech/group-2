@@ -6,7 +6,7 @@ const productController = {
     createProduct: async (req, res) => {
         console.log('create a product');
         try {
-            let { name, type, price, image_link, countInstock, rating } = req.body;
+            const { name, type, price, image_link, countInstock, rating } = req.body;
             if (!name || !type || !price || !image_link || !countInstock || !rating) {
                 return res.status(400).json({
                     result: null,
@@ -112,7 +112,6 @@ const productController = {
     updateProduct: async (req, res) => {
         console.log('update product');
         try {
-
             const result = await Product.findOneAndUpdate(
                 { _id: req.params.id },
                 { $set: req.body },

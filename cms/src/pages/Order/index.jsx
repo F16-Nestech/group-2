@@ -4,7 +4,7 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Order() {
   const translate = useLanguage();
-  const entity = 'order';
+  const entity = 'orders';
 
   console.log('Go to order page')
 
