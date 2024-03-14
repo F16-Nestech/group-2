@@ -55,15 +55,20 @@ function Sidebar({ collapsible }) {
       icon: <DashboardOutlined />,
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
     },
-    {
-      key: 'lead',
-      icon: <UserAddOutlined />,
-      label: <Link to={'/lead'}>{translate('lead')}</Link>,
-    },
+    // {
+    //   key: 'lead',
+    //   icon: <UserAddOutlined />,
+    //   label: <Link to={'/lead'}>{translate('lead')}</Link>,
+    // },
     {
       key: 'offer',
       icon: <FileOutlined />,
       label: <Link to={'/offer'}>{translate('offer')}</Link>,
+    },
+    {
+      key: 'order',
+      icon: <FileOutlined />,
+      label: <Link to={'/order'}>{translate('order')}</Link>,
     },
     {
       key: 'product',
@@ -75,11 +80,11 @@ function Sidebar({ collapsible }) {
       icon: <FileTextOutlined />,
       label: <Link to={'/invoice'}>{translate('invoice')}</Link>,
     },
-    {
-      key: 'quote',
-      icon: <FileSyncOutlined />,
-      label: <Link to={'/quote'}>{translate('quote')}</Link>,
-    },
+    // {
+    //   key: 'quote',
+    //   icon: <FileSyncOutlined />,
+    //   label: <Link to={'/quote'}>{translate('quote')}</Link>,
+    // },
     {
       key: 'payment',
       icon: <CreditCardOutlined />,
@@ -95,11 +100,11 @@ function Sidebar({ collapsible }) {
     //   icon: <BoxPlotOutlined />,
     //   label: <Link to={'/product'}>{translate('product')}</Link>,
     // },
-    {
-      key: 'admin',
-      icon: <TeamOutlined />,
-      label: <Link to={'/admin'}>{translate('admin')}</Link>,
-    },
+    // {
+    //   key: 'admin',
+    //   icon: <TeamOutlined />,
+    //   label: <Link to={'/admin'}>{translate('admin')}</Link>,
+    // },
     {
       label: translate('Settings'),
       key: 'settings',

@@ -7,20 +7,19 @@ const router = express.Router()
 router.post("/product", productController.createProduct);
 
 //Get all Products
-router.get("/products", productController.getProducts);
+router.get("/list", productController.getProducts);
 
 //Get an Products
-router.get("/product/:id", productController.getProduct);
+router.get("/read-Product/:id", productController.getProduct);
 
 //Update Products
-router.put("/product/:id", productController.updateProduct);
+router.put("/update/:id", productController.updateProduct);
 
 //Delete Product 
-router.delete("/product/:id", productController.deleteProduct);
+router.delete("/delete/:id", productController.deleteProduct);
 
 //Delete many Products
-router.delete("/products", productController.deleteManyProducts);
+router.delete("/delete-many", productController.deleteManyProducts);
 
 
 module.exports = router;
-

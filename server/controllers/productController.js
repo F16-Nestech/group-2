@@ -2,17 +2,18 @@ const { default: mongoose } = require("mongoose");
 const Product = require("../models/productModel");
 
 const productController = {
-  //Add Product
-  createProduct: async (req, res) => {
-    try {
-      let { name, type, price, image_link, countInstock, rating } = req.body;
-      if (!name || !type || !price || !image_link || !countInstock || !rating) {
-        return res.status(400).json({
-          result: null,
-          success: false,
-          message: "the input is required.",
-        });
-      }
+    //Add Product
+    createProduct: async (req, res) => {
+        console.log('create a product');
+        try {
+            const { name, type, price, image_link, countInstock, rating } = req.body;
+            if (!name || !type || !price || !image_link || !countInstock || !rating) {
+                return res.status(400).json({
+                    result: null,
+                    success: false,
+                    message: 'the input is required.',
+                })
+            }
 
       const existingProduct = await Product.findOne({ name: name });
 
@@ -102,15 +103,15 @@ const productController = {
     }
   },
 
-  //Update Product
-  updateProduct: async (req, res) => {
-    console.log("update product");
-    try {
-      const result = await Product.findOneAndUpdate(
-        { _id: req.params.id },
-        { $set: req.body },
-        { new: true }
-      ).exec();
+    //Update Product
+    updateProduct: async (req, res) => {
+        console.log('update product');
+        try {
+            const result = await Product.findOneAndUpdate(
+                { _id: req.params.id },
+                { $set: req.body },
+                { new: true },
+            ).exec();
 
       if (!result) {
         return res.status(404).json({

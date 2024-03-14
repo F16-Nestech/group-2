@@ -22,4 +22,3 @@ productSchema.plugin(uniqueValidator);
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
-

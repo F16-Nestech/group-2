@@ -4,6 +4,8 @@ import { API_BASE_URL } from '@/config/serverApiConfig';
 import errorHandler from './errorHandler';
 import successHandler from './successHandler';
 
+console.log('API_BASE_URL: ', API_BASE_URL);
+
 axios.defaults.baseURL = API_BASE_URL;
 axios.defaults.withCredentials = true;
 
@@ -147,8 +149,9 @@ const request = {
   //   }
   // },
   list: async ({ entity, options = {} }) => {
+    console.log('request entity: ', entity);
     try {
-      const response = await axios.get(entity + '/listProducts');
+      const response = await axios.get(entity + '/list');
 
       successHandler(response, {
         notifyOnSuccess: false,

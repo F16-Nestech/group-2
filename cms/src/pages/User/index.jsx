@@ -6,7 +6,7 @@ import UserForm from '@/forms/UserForm';
 import dayjs from 'dayjs';
 export default function User() {
   const translate = useLanguage();
-  const entity = 'user';
+  const entity = 'users';
   const searchConfig = {
     displayLabels: ['name'],
     searchFields: 'name,birthday',
@@ -20,13 +20,13 @@ export default function User() {
       title: translate('name'),
       dataIndex: 'name',
     },
-    {
-      title: translate('Birthday'),
-      dataIndex: 'birthday',
-      render: (date) => {
-        return dayjs(date).format('DD/MM/YYYY');
-      },
-    },
+    // {
+    //   title: translate('Birthday'),
+    //   dataIndex: 'birthday',
+    //   render: (date) => {
+    //     return dayjs(date).format('DD/MM/YYYY');
+    //   },
+    // },
     {
       title: translate('Address'),
       dataIndex: 'address',

@@ -122,7 +122,7 @@ const lang = {
   product: 'Product',
   admin: 'Admin',
   employee: 'Employee',
-  user: 'user',
+  user: 'User',
   currency: 'Currency',
   invoice_list: 'Invoice List',
   add_new_invoice: 'Add New Invoice',

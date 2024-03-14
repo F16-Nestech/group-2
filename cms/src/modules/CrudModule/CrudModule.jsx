@@ -109,6 +109,8 @@ function FixHeaderPanel({ config }) {
 function CrudModule({ config, createForm, updateForm, withUpload = false }) {
   const dispatch = useDispatch();
 
+  console.log("Crud module", config)
+
   useLayoutEffect(() => {
     dispatch(crud.resetState());
   }, []);

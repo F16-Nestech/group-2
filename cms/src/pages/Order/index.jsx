@@ -1,12 +1,13 @@
-import React from 'react';
-
 import CrudModule from '@/modules/CrudModule/CrudModule';
 import OrderForm from '@/forms/OrderForm'; // Ensure to create this form
 import useLanguage from '@/locale/useLanguage';
 
 export default function Order() {
   const translate = useLanguage();
-  const entity = 'order';
+  const entity = 'orders';
+
+  console.log('Go to order page')
+
   const searchConfig = {
     displayLabels: ['orderId', 'status'],
     searchFields: 'orderId,status',
@@ -47,6 +48,10 @@ export default function Order() {
       dataIndex: 'orderId',
     },
     {
+      title: translate('Name'),
+      dataIndex: 'name',
+    },
+    {
       title: translate('Product'),
       dataIndex: 'products',
     },
@@ -58,7 +63,6 @@ export default function Order() {
       title: translate('Price'),
       dataIndex: 'price',
     },
-
     {
       title: translate('Status'),
       dataIndex: 'status',

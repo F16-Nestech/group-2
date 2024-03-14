@@ -1,88 +1,128 @@
-const { default: mongoose } = require('mongoose');
-const Order = require('../models/orderModel');
-const Product = require('../models/productModel');
-const Transaction = require('../models/transactionModel');
+const { default: mongoose } = require("mongoose");
+const Order = require("../models/orderModel");
 
 const orderController = {
-    //Add order
-    createOrder: async (req, res) => {
+  // Get all Orders
+  getOrders: async (req, res) => {
+    console.log('get all orders');
         try {
-            const { orderItems, paymentMethod, itemsPrice, shippingPrice, totalPrice, fullName, user, address, phone } = req.body;
-            if (!orderItems || !paymentMethod || !itemsPrice || !shippingPrice || !totalPrice || !fullName || !address, !phone) {
-                return res.status(400).json({
-                    result: null,
-                    success: false,
-                    message: 'the input is required.',
-                })
-            }
-            const promises = orderItems.map(async (order) => {
-                const productData = await Product.findByIdAndUpdate(
-                    {
-                        _id: order.product,
-                        countInstock: { $gte: order.amount } //kiem tra xem hang con lai bao nhieu
-                    },
-                    {
-                        $inc: {
-                            countInstock: -order.amount,   //tru so luong hang trong kho
-                            selled: +order.amount
-                        }
-                    },
-                    { new: true }
-                )
-                if (productData) {
-                    return res.status(201).json({
-                        message: "Success"
-                    })
-                }
-                else {
-                    return res.status(401).json({
-                        message: "not successful",
-                        id: order.product
-                    })
-                }
-            })
-
-            const results = await Promise.all(promises)
-            const newData = results && results.filter((item) => item.id)
-            if (newData.length) {
-                const arrId = []
-                newData.forEach((item) => {
-                    arrId.push(item.id)
-                })
-                resolve({
-                    status: 'Err',
-                    message: `Product by id: ${arrId.join(',')} not enough`,
-                })
-            } else {
-                const createdOrder = await Order.create({
-                    orderItems,
-                    shippingAddress: {
-                        fullName,
-                        address, phone
-                    },
-                    paymentMethod,
-                    itemsPrice,
-                    shippingPrice,
-                    user: user,
-                    totalPrice,
-                })
-                if (!createdOrder) {
-                    return res.status(403).json({
-                        success: false,
-                        message: "Order not successful",
-                    })
-                }
-                return res.status(200).send({
-                    success: true,
-                    data: createdOrder,
-                    message: "Order successfully"
-                })
-            }
-
+            const allOrders = await Order.find();
+            res.status(200).json(allOrders);
         } catch (err) {
-            res.status(501).json({ success: false, message: 'error server' });
+            res.status(501).json(err);
         }
-    },
+  },
+
+  // Add an order
+  addOrder: async(req, res) => {
+    console.log('add an order');
+    try {
+      const { orderItems, shippingAddress } = req.body;
+      if (!orderItems || !shippingAddress) {
+        return res.status(400).json({ message: 'Missing required fields.' });
+      }
+
+      const newOrder = new Order({
+        orderItems,
+        shippingAddress,
+      });
+
+      const savedOrder = await newOrder.save();
+
+      res.status(200).json(savedOrder);
+    } catch (err) {
+      res.status(501).json(err);
+    }
+  },
+
+  // Get an order
+  searchAnOrder: async (req, res) => {
+    console.log('get an order');
+    try {
+      // Lấy ID từ request params
+      const orderId = req.params.id;
+
+      // Kiểm tra xem ID có hợp lệ không
+      if (!mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ message: 'Invalid Order Id.' });
+      }
+      // Tìm đơn hàng trong cơ sở dữ liệu dựa trên ID
+      const order = await Order.findById(orderId);
+      // Kiểm tra xem đơn hàng có tồn tại không
+      if (!order) {
+        return res.status(404).json({ message: 'Order is not found.' });
+      }
+      // Trả về thông tin đơn hàng
+      res.status(200).json(order);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //Update order
+  updateOrder: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ message: 'Invalid Order Id.' });
+      }
+      
+      const updatedOrder = await Order.findByIdAndUpdate(orderId, req.body, { new: true });
+
+      if (!updatedOrder) {
+        return res.status(404).json({ message: 'Order is not found.' });
+      }
+
+      res.status(200).json(updatedOrder);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //Delete Order
+  deleteOrder: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ message: 'Invalid Order Id.' });
+      }
+
+      const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+      if (!deletedOrder) {
+        return res.status(404).json({ message: 'Order is not found.' });
+      }
+
+      res.status(200).json(deletedOrder);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //Delete many orders
+  deleteManyOrder: async (req, res) => {
+    try {
+      const conditions = req.body.conditions;
+      if (!conditions) {
+        return res.status(400).json({ message: 'Missing condition for delete.' });
+      }
+
+      const deletedOrders = await Order.deleteMany(conditions);
+
+      if (deletedOrders.deletedCount == 0) {
+        return res.status(404).json({ message: 'No matching order found.' });
+      }
+
+      res.status(200).json({
+        deletedCount: deletedOrders.deletedCount,
+        message: 'Orders successfully deleted.'
+      });
+    } catch (err) {
+      console.error(err)
+      res.status(500).json(err);
+    }
+  }
+
 }
 
 module.exports = orderController;
