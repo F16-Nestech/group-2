@@ -72,35 +72,69 @@ const products = [
     description: "Description for product 1",
   },
 ];
-function ProductsPage() {
-    const [quantities, setQuantities] = useState(Array(products.length).fill(1));
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [isChecked, setIsChecked] = useState(Array(products.length).fill(false));
-    useEffect(() => {
-        const newTotalAmount = products.reduce(
-          (total, product, index) => {
-            if (isChecked[index]) {
-              return total + product.price * quantities[index];
-            }
-            return total;
-          },
-          0
-        );
-        setTotalAmount(newTotalAmount);
-      }, [quantities, isChecked]);
-    
-      const handleQuantityChange = (index, value) => {
-        const newQuantities = [...quantities];
-        newQuantities[index] = value;
-        setQuantities(newQuantities);
+function OrdersPage() {
+  const [quantities, setQuantities] = useState(Array(products.length).fill(1));
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [isChecked, setIsChecked] = useState(
+    Array(products.length).fill(false)
+  );
+  useEffect(() => {
+    const newTotalAmount = products.reduce((total, product, index) => {
+      if (isChecked[index]) {
+        return total + product.price * quantities[index];
+      }
+      return total;
+    }, 0);
+    setTotalAmount(newTotalAmount);
+  }, [quantities, isChecked]);
+
+  const handleQuantityChange = (index, value) => {
+    const newQuantities = [...quantities];
+    newQuantities[index] = value;
+    setQuantities(newQuantities);
+  };
+
+  const handleCheckboxChange = (index) => {
+    const newIsChecked = [...isChecked];
+    newIsChecked[index] = !newIsChecked[index];
+    setIsChecked(newIsChecked);
+  };
+  const [userInfo, setUserInfo] = useState({
+    fullName: "",
+    address: "",
+    phone: "",
+    paymentMethod: "Credit Card", // Giả sử mặc định là Credit Card
+  });
+  const handleBuyClick = async () => {
+    try {
+      const selectedProducts = products.filter(
+        (product, index) => isChecked[index]
+      );
+      const orderData = {
+        orderItems: selectedProducts.map((product, index) => ({
+          name: product.name,
+          amount: quantities[index],
+          image: product.image_link,
+          price: product.price,
+          product: product._id,
+        })),
+        shippingAddress: {
+          fullName: userInfo.fullName,
+          address: userInfo.address,
+          phone: userInfo.phone,
+        },
+        paymentMethod: userInfo.paymentMethod,
+        itemsPrice: totalAmount,
+        shippingPrice: 10,
+        totalPrice: totalAmount + 10,
+        user: "user_id_placeholder",
       };
-    
-      const handleCheckboxChange = (index) => {
-        const newIsChecked = [...isChecked];
-        newIsChecked[index] = !newIsChecked[index];
-        setIsChecked(newIsChecked);
-      };
-    
+      console.log(orderData);
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
+
   return (
     <div className="ProductsContainer">
       <h4
@@ -112,6 +146,53 @@ function ProductsPage() {
       >
         Giỏ hàng
       </h4>
+      <div className="inforUser">
+        <label>Họ và Tên:</label>
+        <input
+          type="text"
+          value={userInfo.fullName}
+          onChange={(e) =>
+            setUserInfo({ ...userInfo, fullName: e.target.value })
+          }
+        />
+        <label>Địa chỉ:</label>
+        <input
+          type="text"
+          value={userInfo.address}
+          onChange={(e) =>
+            setUserInfo({ ...userInfo, address: e.target.value })
+          }
+        />
+        <label>Số điện thoại:</label>
+        <input
+          type="text"
+          value={userInfo.phone}
+          onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
+        />
+        <label>Đơn vị vận chuyển:</label>
+        <select
+          value={userInfo.paymentMethod}
+          onChange={(e) =>
+            setUserInfo({ ...userInfo, paymentMethod: e.target.value })
+          }
+        >
+          <option value="giaohangnhanh">Giao hàng nhanh</option>
+          <option value="JT">J&T Express</option>
+          <option value="SE">Standard Express</option>
+        </select>
+        <label>Phương thức thanh toán:</label>
+        <select
+          value={userInfo.paymentMethod}
+          onChange={(e) =>
+            setUserInfo({ ...userInfo, paymentMethod: e.target.value })
+          }
+        >
+          <option value="COD">COD</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="PayPal">PayPal</option>
+          
+        </select>
+      </div>
       <table className="tableStyle">
         <thead className="headerTable">
           <tr>
@@ -128,7 +209,9 @@ function ProductsPage() {
           {products.map((product, index) => (
             <tr key={index}>
               <td>{product.name}</td>
-              <td><img src={product.image_link} alt="" /></td>
+              <td>
+                <img src={product.image_link} alt="" />
+              </td>
               <td>${product.price}</td>
               <td>
                 <div className="quantity-selector">
@@ -170,12 +253,12 @@ function ProductsPage() {
                 </button>
               </td>
               <td>
-              <input
-                className='paymentCheckbox'
-                type="checkbox"
-                checked={isChecked[index]}
-                onChange={() => handleCheckboxChange(index)}
-              />
+                <input
+                  className="paymentCheckbox"
+                  type="checkbox"
+                  checked={isChecked[index]}
+                  onChange={() => handleCheckboxChange(index)}
+                />
               </td>
             </tr>
           ))}
@@ -183,10 +266,10 @@ function ProductsPage() {
       </table>
       <div className="paymentComponent">
         <h4>Thành Tiền: ${totalAmount}</h4>
-        <button className="buttonBuy">Mua hàng</button>
+        <button className="buttonBuy" onClick={handleBuyClick}>Thanh toán</button>
       </div>
     </div>
   );
 }
 
-export default ProductsPage;
+export default OrdersPage;

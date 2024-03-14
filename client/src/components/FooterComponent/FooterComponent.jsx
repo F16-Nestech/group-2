@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 import { Col} from 'antd';
 import { LastFooter} from './styleFooter';
@@ -14,18 +16,18 @@ function FooterComponent() {
               <Col span={8}>
                 <p>GIỚI THIỆU</p>
                 <ul>
-                    <li><a  href="">Về chúng tôi</a></li>
-                    <li><a  href="">Tổng quan về công ty</a></li>
-                    <li><a  href="">Chương trình khuyến mãi</a></li>
-                    <li><a  href="">Cẩm nang mua sắm</a></li>
+                    <li><a href="#">Về chúng tôi</a></li>
+                    <li><a href="#">Tổng quan về công ty</a></li>
+                    <li><a href="#">Chương trình khuyến mãi</a></li>
+                    <li><a href="#">Cẩm nang mua sắm</a></li>
                 </ul>
               </Col>
               <Col span={8}>
                 <p>LIÊN HỆ - HỢP TÁC</p>
                 <ul>
-                    <li><a  href="">Dành cho doanh nghiệp</a></li>
-                    <li><a  href="">Liên hệ</a></li>
-                    <li><a  href="">Tuyển dụng</a></li>
+                    <li><a href="#">Dành cho doanh nghiệp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
                 </ul>
               </Col>
               <Col span={8}>
