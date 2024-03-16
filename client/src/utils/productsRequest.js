@@ -2,11 +2,11 @@ import axios from "axios";
 
 const BASEURL = process.env.BASE_URL;
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/v1/products",
+  baseURL: "http://localhost:5002/api/v1/products",
 });
 const getAllProducts = async (filters) => {
   try {
-    const response = await axiosInstance.get("/products", { params: filters });
+    const response = await axiosInstance.get("/list", { params: filters });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {

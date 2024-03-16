@@ -3,13 +3,12 @@ h4 {
   margin: 20px 0;
 }
 
-.tableStyle {
+.table-style {
   border-collapse: collapse;
   width: 100%;
 }
 
-/* CSS cho headerTable */
-.headerTable th {
+.header-table th {
   color: #429a9d;
   border-bottom: 1px solid #dddddd;
   padding: 10px;
@@ -17,8 +16,8 @@ h4 {
   background-color: #f2f2f2;
 }
 
-/* CSS cho bodyTable */
-.bodyTable td {
+/* CSS cho body-table */
+.body-table td {
   border-bottom: 1px solid #dddddd;
   padding: 10px;
   text-align: left;
@@ -26,21 +25,21 @@ h4 {
     margin: 15px;
   }
 }
-.bodyTable td:nth-child(4),
-.bodyTable td:nth-child(5) {
+.body-table td:nth-child(4),
+.body-table td:nth-child(5) {
   width: 16%;
 }
-.bodyTable td:nth-child(6),
-.bodyTable td:last-child {
+.body-table td:nth-child(6),
+.body-table td:last-child {
   width: 1%; /* Đặt chiều rộng của hai cột ngoài cùng là 10% */
 }
 /* CSS cho hình ảnh */
-.bodyTable img {
+.body-table img {
   width: 50px;
   height: 50px;
   border-radius: 5px;
 }
-.paymentComponent {
+.payment-component {
   display: flex;
   flex-direction: column;
   align-items: flex-end; /* Đưa các phần tử về bên phải */
@@ -48,7 +47,7 @@ h4 {
   color: #429a9d;
 }
 
-.buttonBuy {
+.button-buy {
   /* Tùy chỉnh kiểu dáng cho nút "Mua hàng" */
   background-color: #429a9d;
   color: white;
@@ -58,17 +57,17 @@ h4 {
   border-radius: 4px;
   cursor: pointer;
 }
-.buttonBuy:hover {
+.button-buy:hover {
   background-color: #025c5f;
 }
-.paymentCheckbox {
+.payment-checkbox {
   width: 20px;
   height: 20px;
   &:checked {
     background-color: #00ff00; /* Màu nền mong muốn khi được chọn */
   }
 }
-.inforUser {
+.infor-user {
   display: flex;
   flex-direction: column;
 }

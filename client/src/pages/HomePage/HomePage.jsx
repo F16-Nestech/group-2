@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
-// import { getAllProducts } from "../../utils/productsRequest";
-import { TextField, Select, MenuItem, Pagination } from "@mui/material";
-import "./HomePage.css";
-//import { getAllBanners } from "../../utils/bannerRequest";
+import "../../styles/HomePage.css"
+
 import fakeBanners from "../../fakedata/fakebanners";
-import getAllProducts from "../../fakedata/fakeproducts";
-const getAllBanners = async () => {
-  return fakeBanners;
-};
+import {getAllProducts} from "../../utils/productsRequest";
+import  {addItemToCart} from "../../utils/orderItemsRequest"
+
+import React, { useState, useEffect } from "react";
+import { TextField, Select, MenuItem, Pagination } from "@mui/material";
+
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [minPriceError, setMinPriceError] = useState(null);
   const [maxPriceError, setMaxPriceError] = useState(null);
+  const [banners, setBanners] = useState([]);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
@@ -26,16 +27,24 @@ function HomePage() {
     totalPages: 3,
   });
 
-  useEffect(() => {
-    fetchData();
-  }, [filters]); // Gọi fetchData khi filters thay đổi
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchData(); 
-    }, 500); // Đợi 500ms trước khi gửi yêu cầu, để tránh gửi quá nhiều yêu cầu khi người dùng đang nhập
-    return () => clearTimeout(timer);
-  }, [filters.searchTerm]); // Gọi fetchData khi searchTerm thay đổi
+  const getAllBanners = async () => {
+    return fakeBanners;
+  };
+  const handleAddToCart = async (product) => {
+    try {
+      const ItemsData = {
+          name: product.name,
+          image: product.image_link,
+          price: product.price,
+          product: product._id,
+        };
+      await addItemToCart(ItemsData);
+      console.log("Sản phẩm đã được thêm vào giỏ hàng.");
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+    }
+  };
+  
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
@@ -70,6 +79,7 @@ function HomePage() {
     setMaxPriceError(null);
     fetchData(updatedFilters);
   };
+
   const fetchData = async (updatedFilters) => {
     try {
       const fetchedProducts = await getAllProducts(updatedFilters || filters);
@@ -97,8 +107,18 @@ function HomePage() {
     handlePageChange(value);
   };
 
-  const [banners, setBanners] = useState([]);
-  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const fetchBanners = async () => {
+    try {
+      const fetchedBanners = await getAllBanners();
+      if (Array.isArray(fetchedBanners)) {
+        setBanners(fetchedBanners);
+      } else {
+        console.error("getAllBanners không trả về một mảng");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     fetchBanners();
@@ -115,20 +135,16 @@ function HomePage() {
     return () => clearTimeout(timeout);
   }, [banners, currentBannerIndex]);
 
-  // Function to fetch banners
-  const fetchBanners = async () => {
-    try {
-      const fetchedBanners = await getAllBanners();
-      if (Array.isArray(fetchedBanners)) {
-        // Kiểm tra nếu giá trị trả về là một mảng
-        setBanners(fetchedBanners);
-      } else {
-        console.error("getAllBanners không trả về một mảng");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useEffect(() => {
+    fetchData();
+  }, [filters]); 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchData(); 
+    }, 500); 
+    return () => clearTimeout(timer);
+  }, [filters.searchTerm]); 
 
   return (
     <div className="container">
@@ -193,13 +209,17 @@ function HomePage() {
           >
             Danh sách sản phẩm
           </h4>
-          <ul className="productsList">
+          <ul className="products-list">
             {products.map((product) => (
               <li key={product._id}>
                 <p>{product.name}</p>
                 <img src={product.image_link} alt="" />
                 <p>Giá: {product.price}</p>
                 {product.discount && <p>{product.discount}</p>}
+                <div>
+                  <button>Mua hàng</button>
+                  <button onClick={() => handleAddToCart(product)}>Thêm vào giỏ hàng </button>
+                </div>
               </li>
             ))}
           </ul>

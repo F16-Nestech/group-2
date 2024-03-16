@@ -1,15 +1,15 @@
 .Default {
-  max-width: 1000px;
-  margin: 0 auto; /* Căn giữa */
   display: flex;
   flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto; /* Căn giữa */
   min-height: 100vh;
 }
 .children {
   flex: 1;
 }
 .FooterComponent {
-  margin-top: 300px;
+  margin-top: 30px;
   flex-shrink: 0;
   padding-top: 10px;
 }
