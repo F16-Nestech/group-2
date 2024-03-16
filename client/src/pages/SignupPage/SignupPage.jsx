@@ -1,8 +1,9 @@
+import "../../styles/SignupPage.css";
+
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Container, Typography, TextField, Button, Paper } from "@mui/material";
 import { styled } from "@mui/system";
-import "./SignupPage.css";
 import request from "../../utils/authRequest";
 import { SIGNUP_API } from "../../utils/apiConfig";
 import { callCMSAPI } from "../../utils/apiUtils";

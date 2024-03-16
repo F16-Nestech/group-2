@@ -12,7 +12,7 @@ const productRouter = require('./routes/coreRoutes/productRoutes.js');
 const orderRouter = require('./routes/coreRoutes/orderRoutes.js');
 const invoiceRouter = require('./routes/coreRoutes/invoiceRoutes.js');
 const paymentRouter = require('./routes/coreRoutes/paymentRoutes.js');
-
+const orderItems = require('./routes/coreRoutes/orderItemsRoutes.js');
 
 const PORT = process.env.PORT || 5000
 
@@ -49,7 +49,7 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/invoices", invoiceRouter);
 app.use("/api/v1/payments", paymentRouter);
-
+app.use("/api/v1/orderItems", orderItems);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)

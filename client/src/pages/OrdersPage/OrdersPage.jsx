@@ -1,110 +1,40 @@
+import "../../styles/OrdersPage.css";
+import {getAllItems,removeItemFromCart} from "../../utils/orderItemsRequest"
 import React, { useState, useEffect } from "react";
-import "./OrdersPage.css";
-const products = [
-  {
-    name: "Product 1",
-    price: 10,
-    type: "Type A",
-    countInstock: 50,
-    image_link:
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-    image_list: [
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-      "https://cdn2.cellphones.com.vn/1200x400/https://cdn.sforum.vn/sforum/wp-content/uploads/2018/11/2-10.png",
-    ],
-    rating: 4.5,
-    description: "Description for product 1",
-  },
-  {
-    name: "Product 2",
-    price: 12,
-    type: "Type A",
-    countInstock: 50,
-    image_link:
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-    image_list: [
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-      "https://cdn2.cellphones.com.vn/1200x400/https://cdn.sforum.vn/sforum/wp-content/uploads/2018/11/2-10.png",
-    ],
-    rating: 4.5,
-    description: "Description for product 1",
-  },
-  {
-    name: "Product 3",
-    price: 11,
-    type: "Type A",
-    countInstock: 50,
-    image_link:
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-    image_list: [
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-      "https://cdn2.cellphones.com.vn/1200x400/https://cdn.sforum.vn/sforum/wp-content/uploads/2018/11/2-10.png",
-    ],
-    rating: 4.5,
-    description: "Description for product 1",
-  },
-  {
-    name: "Product 4",
-    price: 15,
-    type: "Type A",
-    countInstock: 50,
-    image_link:
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-    image_list: [
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-      "https://cdn2.cellphones.com.vn/1200x400/https://cdn.sforum.vn/sforum/wp-content/uploads/2018/11/2-10.png",
-    ],
-    rating: 4.5,
-    description: "Description for product 1",
-  },
-  {
-    name: "Product 5",
-    price: 14,
-    type: "Type A",
-    countInstock: 50,
-    image_link:
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-    image_list: [
-      "https://uploads.nguoidothi.net.vn/content/5cbffc46-c13f-4ad8-9f9b-2d6df2c51471.jpg",
-      "https://cdn2.cellphones.com.vn/1200x400/https://cdn.sforum.vn/sforum/wp-content/uploads/2018/11/2-10.png",
-    ],
-    rating: 4.5,
-    description: "Description for product 1",
-  },
-];
+
 function OrdersPage() {
-  const [quantities, setQuantities] = useState(Array(products.length).fill(1));
+  const [products, setProducts] = useState([]);
+  const [quantities, setQuantities] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isChecked, setIsChecked] = useState(
     Array(products.length).fill(false)
   );
-  useEffect(() => {
-    const newTotalAmount = products.reduce((total, product, index) => {
-      if (isChecked[index]) {
-        return total + product.price * quantities[index];
-      }
-      return total;
-    }, 0);
-    setTotalAmount(newTotalAmount);
-  }, [quantities, isChecked]);
-
-  const handleQuantityChange = (index, value) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] = value;
-    setQuantities(newQuantities);
-  };
-
-  const handleCheckboxChange = (index) => {
-    const newIsChecked = [...isChecked];
-    newIsChecked[index] = !newIsChecked[index];
-    setIsChecked(newIsChecked);
-  };
   const [userInfo, setUserInfo] = useState({
     fullName: "",
     address: "",
     phone: "",
     paymentMethod: "Credit Card", // Giả sử mặc định là Credit Card
   });
+
+  const handleRemoveItem = async (itemId) => {
+    try {
+      await removeItemFromCart(itemId);
+      const items = await getAllItems();
+      setProducts(items);
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+  const handleQuantityChange = (index, value) => {
+    const newQuantities = [...quantities];
+    newQuantities[index] = value;
+    setQuantities(newQuantities);
+  };
+  const handleCheckboxChange = (index) => {
+    const newIsChecked = [...isChecked];
+    newIsChecked[index] = !newIsChecked[index];
+    setIsChecked(newIsChecked);
+  };
   const handleBuyClick = async () => {
     try {
       const selectedProducts = products.filter(
@@ -135,8 +65,31 @@ function OrdersPage() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const items = await getAllItems();
+        setProducts(items);
+        setQuantities(Array(items.length).fill(1));
+        setIsChecked(Array(items.length).fill(false));
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const newTotalAmount = products.reduce((total, product, index) => {
+      if (isChecked[index]) {
+        return total + product.price * quantities[index];
+      }
+      return total;
+    }, 0);
+    setTotalAmount(newTotalAmount);
+  }, [quantities, isChecked]);
+
   return (
-    <div className="ProductsContainer">
+    <div className="orders-container">
       <h4
         style={{
           borderBottom: "1px solid black",
@@ -146,7 +99,7 @@ function OrdersPage() {
       >
         Giỏ hàng
       </h4>
-      <div className="inforUser">
+      <div className="infor-user">
         <label>Họ và Tên:</label>
         <input
           type="text"
@@ -193,8 +146,8 @@ function OrdersPage() {
           
         </select>
       </div>
-      <table className="tableStyle">
-        <thead className="headerTable">
+      <table className="table-style">
+        <thead className="header-table">
           <tr>
             <th>Tên Sản Phẩm</th>
             <th>Hình Ảnh</th>
@@ -205,7 +158,7 @@ function OrdersPage() {
             <th></th>
           </tr>
         </thead>
-        <tbody className="bodyTable">
+        <tbody className="body-table">
           {products.map((product, index) => (
             <tr key={index}>
               <td>{product.name}</td>
@@ -237,7 +190,7 @@ function OrdersPage() {
               </td>
               <td>${product.price * quantities[index]}</td>
               <td>
-                <button>
+                <button onClick={() => handleRemoveItem(product._id)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -254,7 +207,7 @@ function OrdersPage() {
               </td>
               <td>
                 <input
-                  className="paymentCheckbox"
+                  className="payment-checkbox"
                   type="checkbox"
                   checked={isChecked[index]}
                   onChange={() => handleCheckboxChange(index)}
@@ -264,9 +217,9 @@ function OrdersPage() {
           ))}
         </tbody>
       </table>
-      <div className="paymentComponent">
+      <div className="payment-component">
         <h4>Thành Tiền: ${totalAmount}</h4>
-        <button className="buttonBuy" onClick={handleBuyClick}>Thanh toán</button>
+        <button className="button-buy" onClick={handleBuyClick}>Thanh toán</button>
       </div>
     </div>
   );
