@@ -7,13 +7,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
  
 }
-a {
-  color: black;
-  text-decoration: none;
-}
-a:hover {
-  color: #429a9d;
-}
+
 form {
   width: 100%;
   display: flex;

@@ -17,6 +17,15 @@ const getAllProducts = async (filters) => {
   }
 };
 
+const getProduct = async (productId) => {
+  try {
+    const response = await axiosInstance.get(`/read-Product/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 const createProduct = async (productData) => {
   try {
     const response = await axiosInstance.post(`/products`, productData);
@@ -47,4 +56,4 @@ const deleteProduct = async (productId) => {
   }
 };
 
-export { getAllProducts, createProduct, updateProduct, deleteProduct };
+export { getAllProducts, createProduct, updateProduct, deleteProduct,getProduct };

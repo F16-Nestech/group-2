@@ -55,8 +55,8 @@ function OrdersPage() {
         },
         paymentMethod: userInfo.paymentMethod,
         itemsPrice: totalAmount,
-        shippingPrice: 10,
-        totalPrice: totalAmount + 10,
+        shippingPrice: 30000,
+        totalPrice: totalAmount + 30000,
         user: "user_id_placeholder",
       };
       console.log(orderData);
@@ -64,7 +64,6 @@ function OrdersPage() {
       console.error("Error placing order:", error);
     }
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,6 +80,7 @@ function OrdersPage() {
   useEffect(() => {
     const newTotalAmount = products.reduce((total, product, index) => {
       if (isChecked[index]) {
+        
         return total + product.price * quantities[index];
       }
       return total;
@@ -218,7 +218,9 @@ function OrdersPage() {
         </tbody>
       </table>
       <div className="payment-component">
-        <h4>Thành Tiền: ${totalAmount}</h4>
+        <h4>Tiền Vận Chuyển: $30000</h4>
+        <h4>Thành Tiền: ${totalAmount+30000}</h4>
+
         <button className="button-buy" onClick={handleBuyClick}>Thanh toán</button>
       </div>
     </div>
