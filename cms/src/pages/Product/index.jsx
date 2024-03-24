@@ -56,7 +56,7 @@ export default function Product() {
     },
     {
       title: translate('Count In Stock'),
-      dataIndex: 'countInStock',
+      dataIndex: 'countInstock',
     },
     {
       title: translate('Rating'),

@@ -5,12 +5,30 @@ const orderController = {
   // Get all Orders
   getOrders: async (req, res) => {
     console.log('get all orders');
-        try {
-            const allOrders = await Order.find();
-            res.status(200).json(allOrders);
-        } catch (err) {
-            res.status(501).json(err);
-        }
+    try {
+      const allOrders = await Order.find();
+
+      const adjustedOrders = allOrders.map(order => {
+        const adjustedOrder = {
+          _id: order._id,
+          customer: order.customer,
+          // fullName: order.shippingAddress.fullName,
+          address: order.shippingAddress.address,
+          city: order.shippingAddress.city,
+          phone: order.shippingAddress.phone,
+          // name: order.orderItems[0].name,
+          // amount: order.orderItems[0].amount,
+          // price: order.orderItems[0].price,
+          // image: order.orderItems[0].image,
+          status: order.status
+        };
+        return adjustedOrder;
+      });
+
+      res.status(200).json(adjustedOrders);
+    } catch (err) {
+      res.status(501).json(err);
+    }
   },
 
   // Add an order

@@ -5,15 +5,15 @@ const productSchema = new mongoose.Schema(
     {
         name: { type: String, required: true, unique: true },
         price: { type: Number, required: true, default: 0.000 },
-        category: { type: String, required: true },
+        type: { type: String, required: true },
         countInstock: { type: Number, required: true },
         image_link: { type: String, required: true },
         image_list: { type: [String] },
-        rating: { type: Number, required: true },
+        discount: { type: Number, required: true, min: 0, max: 100 },
+        rating: { type: Number, required: true, min: 0, max: 5 },
         description: { type: String },
-    },
-    {
-        timestamps: true,
+        createAt: { type: Date, default: Date.now() },
+        updateAt: { type: Date, default: Date.now() }
     }
 );
 
