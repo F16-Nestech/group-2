@@ -6,6 +6,7 @@ import  {addItemToCart} from "../../utils/orderItemsRequest"
 
 import React, { useState, useEffect } from "react";
 import { TextField, Select, MenuItem, Pagination } from "@mui/material";
+import { useHref } from "react-router-dom";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -35,7 +36,7 @@ function HomePage() {
       const ItemsData = {
           name: product.name,
           image: product.image_link,
-          price: product.price,
+          price: isNaN(priceDiscount(product)) ? product.price : priceDiscount(product),
           product: product._id,
         };
       await addItemToCart(ItemsData);
@@ -83,6 +84,7 @@ function HomePage() {
   const fetchData = async (updatedFilters) => {
     try {
       const fetchedProducts = await getAllProducts(updatedFilters || filters);
+      console.log(updatedFilters || filters)
       setProducts(fetchedProducts);
       setPagination({
         page: fetchedProducts.pagination?.page,
@@ -119,6 +121,9 @@ function HomePage() {
       console.error(error);
     }
   };
+  const priceDiscount = (product) => {
+    return product.price-product.discount*product.price/100
+  }
 
   useEffect(() => {
     fetchBanners();
@@ -211,15 +216,23 @@ function HomePage() {
           </h4>
           <ul className="products-list">
             {products.map((product) => (
-              <li key={product._id}>
+              <li key={product._id} className="product-item">
+                <a href={`/products/${product._id}`} className="link-products">
                 <p>{product.name}</p>
-                <img src={product.image_link} alt="" />
-                <p>Giá: {product.price}</p>
-                {product.discount && <p>{product.discount}</p>}
+                <img src={product.image_link} alt="ảnh sản phẩm" />
                 <div>
-                  <button>Mua hàng</button>
-                  <button onClick={() => handleAddToCart(product)}>Thêm vào giỏ hàng </button>
+                  {isNaN(priceDiscount(product)) ? <p>Giá: {product.price}</p> : <div className="style-price">
+                    <p>Giá: </p>
+                    <p className="price-item">{product.price}</p>
+                    <p className="price-discount-item">{priceDiscount(product)}</p>
+                    </div>}
                 </div>
+                {product.discount && <p className="style-discount">-{product.discount}%</p>}
+                <div>
+                  <button className="buy-button">Mua hàng</button>
+                  <button className="cart-button" onClick={() => handleAddToCart(product)}>Thêm vào giỏ hàng </button>
+                </div>
+                </a>
               </li>
             ))}
           </ul>
