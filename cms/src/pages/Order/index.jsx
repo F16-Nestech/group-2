@@ -42,34 +42,34 @@ export default function Order() {
       dataIndex: 'notes',
     },
   ];
-  const dataTableColumns = [
+  const dataTableColumns = [  //bảng hiển thị Order List, dataIndex khớp vs trường trong result
+  //   {
+  //     title: translate('Order ID'),
+  //     dataIndex: 'orderId',
+  //   },
     {
-      title: translate('Order ID'),
-      dataIndex: 'orderId',
+      title: translate('Client'),
+      dataIndex: 'fullName',
     },
-    {
-      title: translate('Name'),
-      dataIndex: 'name',
-    },
-    {
-      title: translate('Product'),
-      dataIndex: 'products',
-    },
-    {
-      title: translate('Quantity'),
-      dataIndex: 'quantity',
-    },
+    // {
+    //   title: translate('Product'),
+    //   dataIndex: 'name',
+    // },
+    // {
+    //   title: translate('Quantity'),
+    //   dataIndex: 'quantity',
+    // },
     {
       title: translate('Price'),
       dataIndex: 'price',
     },
     {
-      title: translate('Status'),
-      dataIndex: 'status',
+      title: translate('Address'),
+      dataIndex: 'address',
     },
     {
-      title: translate('Note'),
-      dataIndex: 'notes',
+      title: translate('Status'),
+      dataIndex: 'status',
     },
   ];
 

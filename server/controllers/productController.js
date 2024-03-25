@@ -4,15 +4,15 @@ const Product = require("../models/productModel");
 const productController = {
   //Add Product
   createProduct: async (req, res) => {
-    console.log("create a product");
+    console.log('create a product');
     try {
-      const { name, type, price, image_link, countInstock, rating } = req.body;
-      if (!name || !type || !price || !image_link || !countInstock || !rating) {
+      const { name, type, price, image_link, countInstock, discount, rating } = req.body;
+      if (!name || !type || !price || !image_link || !countInstock || !discount || !rating) {
         return res.status(400).json({
           result: null,
           success: false,
-          message: "the input is required.",
-        });
+          message: 'the input is required.',
+        })
       }
 
       const existingProduct = await Product.findOne({ name: name });

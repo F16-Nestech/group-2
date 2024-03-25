@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
+    status: { type: String, enum: ['success', 'fail', 'processing'] },
+    customer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     orderItems: [
         {
             name: { type: String, required: true },
@@ -16,7 +18,6 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     shippingAddress: {
-        fullName: { type: String, required: true },
         address: { type: String, required: true },
         phone: {
             type: String,
@@ -29,6 +30,16 @@ const orderSchema = new mongoose.Schema({
             }
         },
     },
+    createAt: { type: Date, default: Date.now() },
+    updateAt: { type: Date, default: Date.now() }
+});
+
+orderSchema.pre('find', function() {
+    this.populate('orderItems.product', 'name price');
+});
+
+orderSchema.pre('findOne', function() {
+    this.populate('orderItems.product', 'name price');
 });
 
 const Order = mongoose.model('Order', orderSchema)

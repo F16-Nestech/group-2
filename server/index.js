@@ -14,7 +14,7 @@ const invoiceRouter = require('./routes/coreRoutes/invoiceRoutes.js');
 const paymentRouter = require('./routes/coreRoutes/paymentRoutes.js');
 const orderItems = require('./routes/coreRoutes/orderItemsRoutes.js');
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5002
 
 app.use(express.static("public"))
 app.use(bodyParser.json())

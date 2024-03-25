@@ -15,7 +15,7 @@ export default function OrderForm({ isUpdateForm = false }) {
 
   return (
     <>
-      <Form.Item
+      {/* <Form.Item
         label={translate('Order ID')}
         name="orderId"
         rules={[
@@ -28,10 +28,10 @@ export default function OrderForm({ isUpdateForm = false }) {
         ]}
       >
         <Input />
-      </Form.Item>
+      </Form.Item> */}
 
       <Form.Item
-        label={translate('Name')}
+        label={translate('Client')}
         name="name"
         rules={[
           {
@@ -114,6 +114,18 @@ export default function OrderForm({ isUpdateForm = false }) {
         ]}
       >
         <Input />
+      </Form.Item>
+
+      <Form.Item
+        label={translate('Phone')}
+        name="phone"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <InputNumber min={0} style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item
