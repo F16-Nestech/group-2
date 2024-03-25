@@ -53,22 +53,44 @@ const productController = {
     }
   },
 
-  //Get all Products
   getProducts: async (req, res) => {
-    console.log("get all product");
     try {
-      const allProduct = await Product.find();
+      let filter = {};
+      if (req.query.minPrice) {
+        filter.price = { $gte: parseInt(req.query.minPrice) };
+      }
+      if (req.query.maxPrice) {
+        if (!filter.price) {
+          filter.price = {};
+        }
+        filter.price.$lte = parseInt(req.query.maxPrice);
+      }
+      if (req.query.searchTerm) {
+        filter.$or = [
+          { name: { $regex: req.query.searchTerm, $options: "i" } },
+          { description: { $regex: req.query.searchTerm, $options: "i" } },
+        ];
+      }
+      let options = {};
+      if (req.query.sortBy && req.query.sortOrder) {
+        let sortDirection = req.query.sortOrder === "desc" ? -1 : 1;
+        options.sort = { [req.query.sortBy]: sortDirection };
+      }
+      const page = parseInt(req.query.page) || 1;
+      const perPage = parseInt(req.query.perPage) || 15;
+      const skip = (page - 1) * perPage;
+
+      const allProduct = await Product.find(filter, null, options)
+        .skip(skip)
+        .limit(perPage);
       res.status(200).json(allProduct);
     } catch (err) {
       res.status(501).json(err);
     }
   },
 
-  //Get an Product
   getProduct: async (req, res) => {
-    console.log("get a product");
     try {
-      //find info product by id
       const productId = await Product.findOne({
         _id: req.params.id,
       });
@@ -87,6 +109,7 @@ const productController = {
           image_link: productId.image_link,
           countInstock: productId.countInstock,
           rating: productId.rating,
+          description: productId.Description,
         };
         return res.status(200).json({
           success: true,
@@ -102,16 +125,14 @@ const productController = {
       });
     }
   },
-
-    //Update Product
-    updateProduct: async (req, res) => {
-        console.log('update product');
-        try {
-            const result = await Product.findOneAndUpdate(
-                { _id: req.params.id },
-                { $set: req.body },
-                { new: true },
-            ).exec();
+  updateProduct: async (req, res) => {
+    console.log("update product");
+    try {
+      const result = await Product.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body },
+        { new: true }
+      ).exec();
 
       if (!result) {
         return res.status(404).json({
@@ -143,11 +164,10 @@ const productController = {
     }
   },
 
-  //Delete Product
   deleteProduct: async (req, res) => {
     try {
-      const productId = req.params.id; // Lấy productId từ request
-      const result = await Product.deleteOne({ _id: productId }); // Xóa sản phẩm dựa trên _id
+      const productId = req.params.id;
+      const result = await Product.deleteOne({ _id: productId });
       if (!result) {
         return res.status(404).json({
           success: false,
@@ -170,7 +190,6 @@ const productController = {
     }
   },
 
-  //Delete Many Product
   deleteManyProducts: async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();

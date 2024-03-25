@@ -1,28 +1,11 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
 .signup-container {
-
   width: 70%;
   margin: 0 auto; /* Thêm margin: 0 auto; để căn giữa */
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
-}
-a {
-  color: black;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #429a9d;
+ 
 }
 
 form {
@@ -30,36 +13,26 @@ form {
   display: flex;
   flex-direction: column;
 }
-
 h6 {
   text-align: center;
 }
-
-
-
 .textField {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .TextField {
   width: 100%;
 }
-
-
-
 .message {
   padding: 10px;
   margin-top: 10px;
   text-align: center;
 }
-
 .success {
   background-color: #8bc34a;
   color: white;
 }
-
 .error {
   background-color: #f44336;
   color: white;

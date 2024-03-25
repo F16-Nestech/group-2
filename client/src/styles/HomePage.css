@@ -1,0 +1,129 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Điều chỉnh khoảng cách giữa danh sách sản phẩm và điều hướng trang */
+}
+.filter {
+  padding-left: 30px;
+}
+.filters {
+  display: flex;
+  justify-content: center;
+}
+.banners {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.banners img {
+  max-width: 100%;
+  max-height: 100%;
+  display: none;
+}
+
+.banners img.active {
+  display: block;
+}
+.products-list img {
+  width: 290px;
+  height: 250px;
+}
+.products-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.products-list li {
+  width: calc(33.33% - 20px);
+  margin: 10px;
+  box-sizing: border-box;
+  border: 1px solid #429A9D;
+  background-color: #fdf4f4;
+  border-radius: 10px;
+  padding: 10px;
+  
+  
+}
+.link-products{
+  text-decoration: none;
+  color: #429A9D;
+  font-size: 20px;
+}
+.buy-button{
+  color: #fff;
+  width: 8em;
+  height: 3em;
+  background-color: #429A9D;
+  margin-right: 20px;
+  margin-left: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition-duration: 0.4s;
+}
+.cart-button{
+  color: #fff;
+  width: 10em;
+  height: 3em;
+  background-color: #429A9D;
+  margin-right: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition-duration: 0.4s;
+}
+.cart-button:hover{
+  background-color: #383837;
+}
+.buy-button:hover{
+  background-color: #383837;
+}
+@keyframes scale {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.1);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+.cart-button:hover {
+  animation: scale 0.5s;
+}
+.buy-button:hover{
+  animation: scale 0.5s;
+}
+.product-item {
+  position: relative; /* Thiết lập vị trí tương đối cho phần tử cha */
+  overflow: hidden; /* Đảm bảo không có phần tử nào chồng lên nhau */
+}
+
+.style-discount {
+  position: absolute; /* Đặt vị trí tuyệt đối cho phần tử con */
+  top: 0; /* Đặt phần giảm giá ở phía trên */
+  right: 0; /* Đặt phần giảm giá ở phía bên phải */
+  background-color: red; /* Màu nền của phần giảm giá */
+  color: white; /* Màu chữ của phần giảm giá */
+  padding: 12px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.style-price{
+  display: flex;
+  flex-direction: row;
+}
+.price-item{
+  color:#5c5c5c;
+  text-decoration: line-through;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+

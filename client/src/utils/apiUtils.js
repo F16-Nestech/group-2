@@ -11,5 +11,3 @@ export const callCMSAPI = async (data) => {
         throw error
     }
 }
-
-export {callCMSAPI} 

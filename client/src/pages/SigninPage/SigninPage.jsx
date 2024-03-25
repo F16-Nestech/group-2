@@ -1,8 +1,9 @@
+import "../../styles/SigninPage.css";
+
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Container, Typography, TextField, Button, Paper } from '@mui/material';
 import { styled } from '@mui/system';
-import "./SigninPage.css";  // Thay đổi đường dẫn tới file CSS theo đúng cấu trúc của bạn
 import request from "../../utils/authRequest";
 import { SIGNIN_API } from "../../utils/apiConfig";
 
@@ -12,11 +13,8 @@ const SigninPage = () => {
     email: "",
     password: "",
   };
-
-  // Trạng thái để quản lý trạng thái đăng nhập
   const [signinStatus, setSigninStatus] = useState({});
 
-  // Hàm xử lý khi form được submit
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       console.log(values);
@@ -35,7 +33,6 @@ const SigninPage = () => {
       setSubmitting(false);
     };
   }
-  // Component Button được thiết kế với kiểu dáng tùy chỉnh
   const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#429A9D',
     marginTop: '10px',
