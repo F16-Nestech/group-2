@@ -40,8 +40,6 @@ export const FirstHeader = styled(Row)`
     align-items: center;
     justify-content: space-between;
     color: white;
-    border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   Button#composition-button {
     display: none; /* Ban đầu ẩn nút */
   }

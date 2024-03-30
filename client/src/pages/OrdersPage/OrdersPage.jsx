@@ -1,5 +1,5 @@
 import "../../styles/OrdersPage.css";
-import {getAllItems,removeItemFromCart} from "../../utils/orderItemsRequest"
+import { getAllItems, removeItemFromCart } from "../../utils/cartRequest";
 import React, { useState, useEffect } from "react";
 
 function OrdersPage() {
@@ -80,7 +80,6 @@ function OrdersPage() {
   useEffect(() => {
     const newTotalAmount = products.reduce((total, product, index) => {
       if (isChecked[index]) {
-        
         return total + product.price * quantities[index];
       }
       return total;
@@ -142,8 +141,6 @@ function OrdersPage() {
         >
           <option value="COD">COD</option>
           <option value="Credit Card">Credit Card</option>
-          <option value="PayPal">PayPal</option>
-          
         </select>
       </div>
       <table className="table-style">
@@ -219,9 +216,11 @@ function OrdersPage() {
       </table>
       <div className="payment-component">
         <h4>Tiền Vận Chuyển: $30000</h4>
-        <h4>Thành Tiền: ${totalAmount+30000}</h4>
+        <h4>Thành Tiền: ${totalAmount + 30000}</h4>
 
-        <button className="button-buy" onClick={handleBuyClick}>Thanh toán</button>
+        <button className="button-buy" onClick={handleBuyClick}>
+          Thanh toán
+        </button>
       </div>
     </div>
   );

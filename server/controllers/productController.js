@@ -104,12 +104,13 @@ const productController = {
         let result = {
           _id: productId._id,
           name: productId.name,
-          type: productId.type,
           price: productId.price,
-          image_link: productId.image_link,
           countInstock: productId.countInstock,
+          image_link: productId.image_link,
+          image_list: productId.image_list,
+          discount: productId.discount,
           rating: productId.rating,
-          description: productId.Description,
+          description: productId.description,
         };
         return res.status(200).json({
           success: true,

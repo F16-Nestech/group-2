@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASEURL = process.env.BASE_URL;
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5002/api/v1/orderItems",
+  baseURL: "http://localhost:5002/api/v1/cartItems",
 });
 
 const getAllItems = async () => {
@@ -17,7 +17,6 @@ const getAllItems = async () => {
     }
   }
 };
-
 const addItemToCart = async (itemData) => {
   try {
     const response = await axiosInstance.post("/add", itemData);
