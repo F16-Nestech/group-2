@@ -1,12 +1,11 @@
-import "../../styles/HomePage.css"
+import "../../styles/HomePage.css";
 
 import fakeBanners from "../../fakedata/fakebanners";
-import {getAllProducts} from "../../utils/productsRequest";
-import  {addItemToCart} from "../../utils/orderItemsRequest"
-
+import { getAllProducts } from "../../utils/productsRequest";
+import ButtonCart from "../../components/Button/buttonCart"
+import ButtonBuyProduct from "../../components/Button/buttonBuyProduct"
 import React, { useState, useEffect } from "react";
 import { TextField, Select, MenuItem, Pagination } from "@mui/material";
-import { useHref } from "react-router-dom";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -21,7 +20,7 @@ function HomePage() {
     sortBy: "price",
     sortOrder: "asc",
     page: 1,
-    perPage: 15,
+    perPage: 3,
   });
   const [pagination, setPagination] = useState({
     page: 1,
@@ -31,21 +30,7 @@ function HomePage() {
   const getAllBanners = async () => {
     return fakeBanners;
   };
-  const handleAddToCart = async (product) => {
-    try {
-      const ItemsData = {
-          name: product.name,
-          image: product.image_link,
-          price: isNaN(priceDiscount(product)) ? product.price : priceDiscount(product),
-          product: product._id,
-        };
-      await addItemToCart(ItemsData);
-      console.log("Sản phẩm đã được thêm vào giỏ hàng.");
-    } catch (error) {
-      console.error("Lỗi khi thêm vào giỏ hàng:", error);
-    }
-  };
-  
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
@@ -83,12 +68,17 @@ function HomePage() {
 
   const fetchData = async (updatedFilters) => {
     try {
+      const allProducts = await getAllProducts();
       const fetchedProducts = await getAllProducts(updatedFilters || filters);
-      console.log(updatedFilters || filters)
       setProducts(fetchedProducts);
+      const totalProducts = allProducts.length;
+      const newTotalPages = Math.ceil(totalProducts / filters.perPage);
       setPagination({
-        page: fetchedProducts.pagination?.page,
-        totalPages: fetchedProducts.pagination?.totalPages,
+        page:
+          updatedFilters && updatedFilters.page !== undefined
+            ? updatedFilters.page
+            : filters.page,
+        totalPages: newTotalPages,
       });
     } catch (error) {
       console.error(error);
@@ -101,12 +91,8 @@ function HomePage() {
     setFilters({ ...filters, sortBy, sortOrder });
   };
 
-  const handlePageChange = (page) => {
-    setFilters({ ...filters, page });
-  };
-
-  const handlePaginationChange = (event, value) => {
-    handlePageChange(value);
+  const handlePageChange = (event, value) => {
+    setFilters({ ...filters, page: value });
   };
 
   const fetchBanners = async () => {
@@ -121,9 +107,10 @@ function HomePage() {
       console.error(error);
     }
   };
+
   const priceDiscount = (product) => {
-    return product.price-product.discount*product.price/100
-  }
+    return product.price - (product.discount * product.price) / 100;
+  };
 
   useEffect(() => {
     fetchBanners();
@@ -142,14 +129,14 @@ function HomePage() {
 
   useEffect(() => {
     fetchData();
-  }, [filters]); 
+  }, [filters]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchData(); 
-    }, 500); 
+      fetchData();
+    }, 500);
     return () => clearTimeout(timer);
-  }, [filters.searchTerm]); 
+  }, [filters.searchTerm]);
 
   return (
     <div className="container">
@@ -218,21 +205,31 @@ function HomePage() {
             {products.map((product) => (
               <li key={product._id} className="product-item">
                 <a href={`/products/${product._id}`} className="link-products">
-                <p>{product.name}</p>
-                <img src={product.image_link} alt="ảnh sản phẩm" />
-                <div>
-                  {isNaN(priceDiscount(product)) ? <p>Giá: {product.price}</p> : <div className="style-price">
-                    <p>Giá: </p>
-                    <p className="price-item">{product.price}</p>
-                    <p className="price-discount-item">{priceDiscount(product)}</p>
-                    </div>}
-                </div>
-                {product.discount && <p className="style-discount">-{product.discount}%</p>}
-                <div>
-                  <button className="buy-button">Mua hàng</button>
-                  <button className="cart-button" onClick={() => handleAddToCart(product)}>Thêm vào giỏ hàng </button>
-                </div>
+                  <p>{product.name}</p>
+                  <img src={product.image_link} alt="ảnh sản phẩm" />
+                  <div>
+                    {isNaN(priceDiscount(product)) ? (
+                      <p>Giá: {product.price}</p>
+                    ) : (
+                      <div className="style-price">
+                        <p>Giá: </p>
+                        <p className="price-item">{product.price}</p>
+                        <p className="price-discount-item">
+                          {priceDiscount(product)}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                
+                {product.discount && (
+                  <p className="style-discount">-{product.discount}%</p>
+                )}
                 </a>
+                <div id="button-product">
+                  <ButtonBuyProduct />
+                  <ButtonCart  product={product}/>
+                </div>
+                
               </li>
             ))}
           </ul>
@@ -240,9 +237,11 @@ function HomePage() {
             <Pagination
               count={pagination.totalPages}
               page={pagination.page}
-              onChange={handlePaginationChange}
+              onChange={handlePageChange}
               shape="rounded"
               color="primary"
+              showFirstButton
+              showLastButton
             />
           </div>
         </div>
